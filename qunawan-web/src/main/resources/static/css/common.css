@@ -1,0 +1,25 @@
+body {
+    font-size: 12px;
+    padding-top: 70px;
+    background-color: #f8f8f8;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+ul li {
+    list-style: none;
+}
+
+hr {
+    margin: 0;
+    padding:0;
+    height: 12px;
+    border: 0;
+    box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
+}
+input::placeholder { /* Most modern browsers support this now. */
+    color: #909;
+}

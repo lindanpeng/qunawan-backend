@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/css/page/login.css">
+    <link rel="stylesheet" href="../static/css/common.css">
+    <script src="https://cdn.bootcss.com/vue/2.5.22/vue.min.js"></script>
+</head>
+<body>
+<div class="container" id="content">
+    <div class="col-lg-4 col-lg-offset-7 ">
+
+        <div class="col-lg-10 col-lg-offset-1 form-group">
+            <!--<div id="form-title">-->
+            <!--<label>欢迎登录</label>-->
+            <!--</div>-->
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#form-login" data-toggle="tab">登录</a>
+                </li>
+                <li class="">
+                    <a href="#form-register" data-toggle="tab">注册</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <br>
+                <p class="tip">{{loginTip}}</p>
+                <form class="form-horizontal tab-pane fade in active" id="form-login">
+                    <div class="input-group">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                        <input type="text" class="form-control" placeholder="请输入邮箱" v-model="email">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                        <input type="password" class="form-control" placeholder="请输入密码" v-model="password">
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <input type="text" class="form-control" placeholder="验证码" id="input-code">
+                        </div>
+                        <div class="col-lg-3 col-lg-offset-1">
+                            <img src="#" class="img-code"/>
+                        </div>
+                    </div>
+                    <input type="button" value="登录" class="btn btn-warning btn-lg col-lg-12" id="btn-login"
+                           @click="doLogin">
+                </form>
+                <form id="form-register">
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+<script src="../static/js/common.js"></script>
+<script>
+    var app = new Vue({
+        el: '#content',
+        data: {
+            email: '',
+            password: '',
+            loginTip:'',
+        },
+        methods: {
+            doLogin: function () {
+                if (this.email == "") {
+                    this.loginTip="邮箱不能空！";
+                    return;
+                }
+                if (this.password == "") {
+                    this.loginTip="密码不能为空！";
+                    return;
+                }
+                var postData = new Object();
+                postData.email = this.email;
+                postData.password = this.password;
+                var _this=this
+                axios.post(DO_LOGIN_URL, postData).then(function (response) {
+
+                    var responseData = response.data;
+                    console.log(responseData)
+                    if (responseData.code == 0) {
+                        _this.loginTip="";
+                        window.location = INDEX_URL;
+                    } else {
+                       _this.loginTip=responseData.message;
+                    }
+                })
+            }
+        }
+    })
+</script>
+</body>
+</html>

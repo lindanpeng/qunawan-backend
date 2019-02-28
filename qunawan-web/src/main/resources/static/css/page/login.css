@@ -1,0 +1,50 @@
+
+body {
+    background: url('../../img/login-bg.jpg') no-repeat;
+    font-size:12px;
+    /*background-size:100% 100%;*/
+    background-size:cover;
+}
+
+.input-group {
+    margin: 10px 0px;
+/ / 输入框上下外边距为10px, 左右为0px
+}
+
+#btn-login {
+    margin: 10px 0px;
+}
+
+#content {
+    margin-top: 200px;
+    /*height: 400px;*/
+    height: 320px;
+}
+
+.form-group input {
+    border-Radius: 0px;
+}
+
+.form-group {
+    background-color: #ffffff;
+}
+
+.form-group button {
+    border-Radius: 0px;
+
+}
+
+.form-group .input-group-addon {
+    border-Radius: 0px;
+}
+
+#form-title {
+    font-size: 32px;
+    color: #5a5a5a;
+    margin-top: 10px;
+}
+
+.tip {
+    line-height: 12px;
+    color: #FF0000;
+}

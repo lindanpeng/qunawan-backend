@@ -1,8 +1,8 @@
 datasource:
   user:
-    url: jdbc:mysql://localhost:3306/qunawan?characterEncoding=utf-8
+    url: jdbc:mysql://47.107.49.21:3306/qunawan?characterEncoding=utf-8
     username: root
-    password: 123
+    password: 123456
     driver-class-name: com.mysql.jdbc.Driver
 
 mybatis:

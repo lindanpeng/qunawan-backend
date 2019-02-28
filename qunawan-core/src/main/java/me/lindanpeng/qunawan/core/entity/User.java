@@ -7,12 +7,20 @@ public class User {
     private String email;
     private String password;
     private String nickname;
+    private String avatar;
     private Short gender;
+    private Short identity;
+    private Short married;
+    private Short state;
+    private Integer provinceId;
+    private Integer cityId;
+    private String province;
+    private String city;
     private Date birthday;
+    private Date updateTime;
     private Date createTime;
     private Date lastLoginTime;
-    private String avatar;
-    private Boolean working;
+
 
     public Long getId() {
         return id;
@@ -86,11 +94,69 @@ public class User {
         this.avatar = avatar;
     }
 
-    public Boolean getWorking() {
-        return working;
+
+
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setWorking(Boolean working) {
-        this.working = working;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public Short getIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(Short identity) {
+        this.identity = identity;
+    }
+
+    public Short getMarried() {
+        return married;
+    }
+
+    public void setMarried(Short married) {
+        this.married = married;
+    }
+
+    public Short getState() {
+        return state;
+    }
+
+    public void setState(Short state) {
+        this.state = state;
+    }
+
+    public Integer getProvinceId() {
+        return provinceId;
+    }
+
+    public void setProvinceId(Integer provinceId) {
+        this.provinceId = provinceId;
+    }
+
+    public Integer getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(Integer cityId) {
+        this.cityId = cityId;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }

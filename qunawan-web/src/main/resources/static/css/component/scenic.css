@@ -1,0 +1,31 @@
+.scenic-show-li {
+    padding: 10px;
+    /*background-color: aquamarine;*/
+    /*border: solid 1px;*/
+}
+
+.scenic-show-li .scenic-thumbnail{
+    position: relative;
+    margin: 0 auto;
+    font-size: 16px;
+    color: white;
+    width: 180px;
+}
+
+.scenic-show-li .scenic-thumbnail img {
+
+    background-color: #FF0000;
+    width: 180px;
+    height: 100px;
+}
+.scenic-show-li .scenic-name {
+    position: absolute;
+    left:5px;
+    top:75px;
+}
+.scenic-show-li .scenic-score {
+    background-color: #ffc817;
+    margin: 0 auto;
+    width: 180px;
+    height: 20px;
+}
