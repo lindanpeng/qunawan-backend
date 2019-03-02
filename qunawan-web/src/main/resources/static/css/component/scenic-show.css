@@ -11,7 +11,12 @@
     color: white;
     width: 180px;
 }
-
+.scenic-num{
+    color: #FF9900;
+}
+.scenic-location{
+    color: #999999;
+}
 .scenic-show-li .scenic-thumbnail img {
 
     background-color: #FF0000;

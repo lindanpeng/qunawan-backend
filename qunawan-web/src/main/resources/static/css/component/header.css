@@ -1,0 +1,25 @@
+#header .navbar-default {
+    background-color: #ffc817;
+}
+
+/*#header .navbar-link li{*/
+/*display:inline-block;*/
+/*overflow: hidden;*/
+/*}*/
+#header .navbar-link a {
+    color: #ffffff;
+    font-size: 20px;
+}
+
+#header .front-page-link a {
+    font-size: 24px;
+}
+
+#header .navbar-form button {
+    font-size: 18px;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    outline: none;
+}

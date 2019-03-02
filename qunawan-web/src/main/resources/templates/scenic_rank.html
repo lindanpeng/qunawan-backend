@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>景点排行</title>
+    <!-- element UI -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/css/component/panel.css">
+    <link rel="stylesheet" href="../static/css/component/header.css">
+    <link rel="stylesheet" href="../static/css/component/scenic-rank.css">
+    <link rel="stylesheet" href="../static/css/component/scenic-show.css">
+    <link rel="stylesheet" href="../static/css/component/pagination-wrapper.css">
+    <link rel="stylesheet" href="../static/css/common.css">
+    <link rel="stylesheet" href="../static/css/page/rank.css">
+    <script src="https://cdn.bootcss.com/vue/2.5.22/vue.min.js"></script>
+</head>
+<body>
+<div id="root" class="container">
+    <div id="main" class="col-lg-9">
+        <div class="scenic-rank panel">
+            <div class="panel-title"><h2>热门景点<span></span>
+            </h2></div>
+            <hr/>
+            <ul>
+                <li v-for="scenic in scenics" class="scenic-rank-li">
+                      <div class="media">
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="media-object" v-bind:src="scenic.thumbnail" alt="...">
+                            </a>
+
+                        </div>
+                        <div class="media-body">
+                            <div class="col-lg-3">
+                            <h4 class="media-heading">{{scenic.name}}</h4>
+                            <p class="scenic-location">[{{scenic.location}}]</p>
+                            <p class="scenic-score">{{scenic.score}}</p>
+                            <p><span><span
+                                    class="scenic-num">{{scenic.likeNum}}</span>人喜欢</span></span>&nbsp;&nbsp;<span><span
+                                    class="scenic-num">{{scenic.evaluateNum}}</span>人点评</span></p>
+                            </div>
+                            <div class="col-lg-6 col-lg-offset-3">
+                                <ul>
+                                    <li class="pull-left single-score">
+                                        <span>美丽：</span><span class="scenic-num">{{scenic.beauty}}</span>
+                                    </li>
+                                    <li>
+                                        <span class="pull-left single-score">休闲：</span><span class="scenic-num">{{scenic.ease}}</span>
+                                    </li>
+                                    <li>
+                                        <span class="pull-left single-score">刺激：</span><span class="scenic-num">{{scenic.excitement}}</span>
+                                    </li>
+                                    <li>
+                                        <span class="pull-left single-score">人文：</span><span class="scenic-num">{{scenic.humanity}}</span>
+                                    </li>
+                                    <li>
+                                        <span class="pull-left single-score">浪漫：</span><span class="scenic-num">{{scenic.romantic}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scenic-desc">
+                        <p class="scenic-desc-txt">{{scenic.desc}}<a href="#" class="scenic-show-detail">更多</a></p>
+
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+        <div class="pagination-wrapper">
+            <el-pagination
+                    background
+                    layout="prev, pager, next"
+                    :total="1000">
+            </el-pagination>
+        </div>
+    </div>
+    <div id="right" class="col-lg-3">
+        <div class="panel">
+            <div class="panel-title"><h2>筛选条件</h2></div>
+            <hr/>
+            <p>
+            省份：
+            <el-select
+                    v-model="value9"
+                    multiple
+                    filterable
+                    remote
+                    reserve-keyword
+                    placeholder="请输入关键词"
+                    :remote-method="remoteMethod"
+                    :loading="loading">
+                <el-option
+                        v-for="item in options4"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                </el-option>
+            </el-select>
+            </p>
+        </div>
+
+    </div>
+</div>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    var app = new Vue({
+        el: '#root',
+        data: {
+            options4: [],
+            value9: [],
+            list: [],
+            loading: false,
+            states: ["Alabama", "Alaska", "Arizona",
+                "Arkansas", "California", "Colorado",
+                "Connecticut", "Delaware", "Florida",
+                "Georgia", "Hawaii", "Idaho", "Illinois",
+                "Indiana", "Iowa", "Kansas", "Kentucky",
+                "Louisiana", "Maine", "Maryland",
+                "Massachusetts", "Michigan", "Minnesota",
+                "Mississippi", "Missouri", "Montana",
+                "Nebraska", "Nevada", "New Hampshire",
+                "New Jersey", "New Mexico", "New York",
+                "North Carolina", "North Dakota", "Ohio",
+                "Oklahoma", "Oregon", "Pennsylvania",
+                "Rhode Island", "South Carolina",
+                "South Dakota", "Tennessee", "Texas",
+                "Utah", "Vermont", "Virginia",
+                "Washington", "West Virginia", "Wisconsin",
+                "Wyoming"],
+            scenics: [
+                {
+                    thumbnail: "https://bbswater-fd.zol-img.com.cn/t_s1200x5000/g5/M00/00/08/ChMkJlvHN7iIJ-4tAAQ0vpQTX9UAAsi5QIRy6kABDTW666.jpg",
+                    name: "广州塔",
+                    location: "广东省广州市",
+                    likeNum: 5,
+                    evaluateNum: 10,
+                    desc:"广州塔没什么好看的广州塔没什么好看的广州塔没什么好看的广州塔没什么好看的广州塔没什么好看的广州塔没什么好看的广州塔没什么好看的",
+                    score: 5,
+                    beauty: 1.0,
+                    ease: 1.0,
+                    excitement: 2.0,
+                    humanity: 1.0,
+                    romantic: 2.0,
+                    people: [
+                        "学生",
+                        "情侣"
+                    ]
+                },
+                {
+                    thumbnail: "https://bbswater-fd.zol-img.com.cn/t_s1200x5000/g5/M00/00/08/ChMkJlvHN7iIJ-4tAAQ0vpQTX9UAAsi5QIRy6kABDTW666.jpg",
+                    name: "广州塔",
+                    location: "广东省广州市",
+                    likeNum: 5,
+                    evaluateNum: 10,
+                    desc:"广州塔没什么好看的",
+                    score: 5,
+                    beauty: 1.0,
+                    ease: 1.0,
+                    excitement: 2.0,
+                    humanity: 1.0,
+                    romantic: 2.0,
+                    people: [
+                        "学生",
+                        "情侣"
+                    ]
+                }
+            ]
+        },
+        methods:{
+            remoteMethod:function(query) {
+                if (query !== '') {
+                    this.loading = true;
+                    setTimeout(() => {
+                        this.loading = false;
+                    this.options4 = this.list.filter(item => {
+                        return item.label.toLowerCase()
+                            .indexOf(query.toLowerCase()) > -1;
+                });
+                }, 200);
+                } else {
+                    this.options4 = [];
+                }
+            }
+        }
+
+    });
+</script>
+</body>
+</html>

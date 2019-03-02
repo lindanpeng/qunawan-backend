@@ -1,0 +1,66 @@
+/*初始化样式*/
+.star_evaluate {
+    position: relative;
+    width: 100px;
+    height: 20px;
+    background: url("../../img/star_blank.png") repeat-x;
+    background-size: 20px 20px;
+    overflow: hidden;
+}
+
+.star {
+    display: block;
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    z-index: 2;
+}
+
+.star_1 {
+    left: 0;
+}
+
+.star_2 {
+    left: 20px;
+}
+
+.star_3 {
+    left: 40px;
+}
+
+.star_4 {
+    left: 60px;
+}
+
+.star_5 {
+    left: 80px;
+}
+
+/*鼠标悬浮*/
+.star:hover {
+    cursor: pointer;
+    background: url("../../img/star_colored.png") repeat-x;
+    background-size: 20px 20px;
+    left: 0;
+    z-index: 1;
+}
+
+.star_1:hover {
+    width: 20px;
+}
+
+.star_2:hover {
+    width: 40px;
+}
+
+.star_3:hover {
+    width: 60px;
+}
+
+.star_4:hover {
+    width: 80px;
+}
+
+.star_5:hover {
+    width: 100px;
+}

@@ -1,0 +1,14 @@
+#profile{
+    height: 200px;
+}
+#profile #avatar{
+    margin: 10px 10px;
+    width: 100px;
+    height: 100px;
+}
+#profile .info-tip{
+    font-size: 18px;
+}
+#profile .iinfo-content{
+    font-size: 18px;
+}

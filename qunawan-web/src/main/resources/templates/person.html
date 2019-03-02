@@ -6,33 +6,146 @@
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="../static/css/page/login.css">
+    <link rel="stylesheet" href="../static/css/component/header.css">
+    <link rel="stylesheet" href="../static/css/component/panel.css">
+    <link rel="stylesheet" href="../static/css/component/scenic-show.css">
+    <link rel="stylesheet" href="../static/css/component/scenic-footstep.css">
+    <link rel="stylesheet" href="../static/css/component/evaluate-score.css">
+    <link rel="stylesheet" href="../static/css/component/evaluate.css">
+    <link rel="stylesheet" href="../static/css/page/person.css">
     <link rel="stylesheet" href="../static/css/common.css">
     <script src="https://cdn.bootcss.com/vue/2.5.22/vue.min.js"></script>
 </head>
 <body>
-<div class="container">
+<div id="root" class="container" class="row">
+    <div id="header">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <ul class="nav navbar-nav">
+                    <li class="navbar-link front-page-link"><a href="#">首页</a></li>
+                    <li class="navbar-link"><a href="#">最新</a></li>
+                    <li class="navbar-link"><a href="#">最热</a></li>
+                    <li class="navbar-link"><a href="#">猜你喜欢</a></li>
+                </ul>
+                <form class="navbar-form navbar-right">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="要去哪玩鸭">
+                        <span class="input-group-addon"><button><span
+                                class="glyphicon glyphicon-search"></span></button></span>
+                    </div>
+                </form>
+            </div>
+        </nav>
+    </div>
     <div id="content">
-        <div id="main col-lg-9">
+        <div id="main" class="col-lg-9">
             <div id="profile" class="panel">
-                <div class="panel-title"><h2>热门景点<span><a class="panel-title-showall pull-right" href="#">>>查看全部&nbsp;&nbsp;</a></span>
+                <div class="panel-title"><h2>个人资料</h2></div>
+                <hr/>
+                <div class="row col-lg-12">
+                    <div class="col-lg-2">
+                        <img v-bind:src="user.avatar" alt="" class="img-circle" id="avatar">
+                    </div>
+                    <div class="col-lg-4">
+                        <ul>
+                            <li>
+                                <p class="info-tip">昵称：<span class="info-content">{{user.nickname}}</span></p>
+                            </li>
+                            <li>
+                                <p class="info-tip">地区：<span class="info-content">{{user.location}}</span></p>
+                            </li>
+                            <li>
+                                <p class="info-tip">性别：<span class="info-content">{{user.gender}}</span></p>
+                            </li>
+                            <li>
+                                <p class="info-tip">生日：<span class="info-content">{{user.birthday}}</span></p>
+                            </li>
+                        </ul>
+                        <div style="clear:both"></div>
+                    </div>
+                    <div class="col-lg-4">
+                        <ul>
+                            <li>
+                                <p class="info-tip">身份：<span class="info-content">{{user.identity}}</span></p>
+                            </li>
+                        </ul>
+                        <div style="clear:both"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="like" class="panel">
+                <div class="panel-title"><h2>我的喜欢<span><a class="panel-title-showall pull-right" href="#">>>展示全部&nbsp;&nbsp;</a></span>
                 </h2></div>
-                <div id="avatar">
-                    <img src="#" alt="">
-                </div>
-                <div id="info">
+                <hr/>
+                <div class="scenic-show-content">
+                    <ul>
+                        <li class="scenic-show-li pull-left col-lg-3">
+
+                            <div class="scenic-thumbnail">
+                                <img src="https://bbswater-fd.zol-img.com.cn/t_s1200x5000/g5/M00/00/08/ChMkJlvHN7iIJ-4tAAQ0vpQTX9UAAsi5QIRy6kABDTW666.jpg">
+                                <p class="scenic-name">广州塔</p>
+                            </div>
+
+                            <div class="scenic-score">
+                                <p>5.0</p>
+                            </div>
+
+                        </li>
+
+                    </ul>
+                    <div style="clear:both"></div>
                 </div>
             </div>
-            <div id="like">
-
-            </div>
-            <div id="my-evaluate">
-
+            <div id="my-evaluate" class="panel">
+                    <div class="panel-title"><h2>我的评价<span><a class="panel-title-showall pull-right" href="#">>>查看全部&nbsp;&nbsp;</a></span>
+                    </h2></div>
+                    <hr/>
+                    <ul class="evaluate-list">
+                        <li class="evaluate-li">
+                            <div class="media evaluate-content">
+                                <div class="media-left">
+                                    <a href="#">
+                                        <img class="media-object"
+                                             src="http://img4.duitang.com/uploads/item/201412/24/20141224224554_SuYth.thumb.700_0.jpeg"
+                                             alt="...">
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <h5 class="media-heading">dumpling <span>点评了</span> <span>广州塔</span></h5>
+                                    <p class="evaluate-score">🌟🌟🌟🌟🌟 5.0</p>
+                                    <p class="evaluate-remark">
+                                        不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛</p>
+                                    <p class="evaluate-time">2018-01-11</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
             </div>
         </div>
-        <div id="right col-lg-3">
+        <div id="right" class="col-lg-3">
+                <div id="footstep" class="panel">
+                <div class="panel-title"><h2>我的足迹</h2></div>
+                <hr/>
+                    <ul>
+                        <li v-for="scenic in scenics" class="scenic-footstep-li">
+                            <div class="media">
+                                <div class="media-left">
+                                    <a href="#">
+                                            <img class="media-object" v-bind:src="scenic.thumbnail" alt="...">
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <h5 class="media-heading">{{scenic.name}}</h5>
+                                    <p class="scenic-location">[{{scenic.location}}]</p>
+                                    <br>
+                                    <p><span><span class="scenic-num">{{scenic.likeNum}}</span>人喜欢</span></span>&nbsp;&nbsp;<span><span class="scenic-num">{{scenic.evaluateNum}}</span>人点评</span></p>
 
-        </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
     </div>
 
 </div>
@@ -48,5 +161,39 @@
         crossorigin="anonymous"></script>
 <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
 <script src="../static/js/common.js"></script>
+<script>
+    var app = new Vue({
+        el: '#root',
+        data: {
+            user: {
+                avatar: "http://img5.duitang.com/uploads/item/201409/23/20140923094045_BNYji.thumb.700_0.png",
+                nickname: "lindanpeng",
+                gender: "男",
+                location: "广东省汕头市",
+                birthday:"2000-10-1 10:10:00",
+                married:"否",
+                identity:"学生"
+            },
+            scenics:[
+                {
+                    thumbnail:"https://bbswater-fd.zol-img.com.cn/t_s1200x5000/g5/M00/00/08/ChMkJlvHN7iIJ-4tAAQ0vpQTX9UAAsi5QIRy6kABDTW666.jpg",
+                    name:"广州塔",
+                    location:"广东省广州市",
+                    likeNum:5,
+                    evaluateNum:10,
+                    score:5
+                },
+                {
+                    thumbnail:"https://bbswater-fd.zol-img.com.cn/t_s1200x5000/g5/M00/00/08/ChMkJlvHN7iIJ-4tAAQ0vpQTX9UAAsi5QIRy6kABDTW666.jpg",
+                    name:"广州塔",
+                    location:"广东省广州市",
+                    likeNum:5,
+                    evaluateNum:10,
+                    scenic:5
+                }
+            ]
+        }
+    })
+</script>
 </body>
 </html>

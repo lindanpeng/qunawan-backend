@@ -1,0 +1,16 @@
+.scenic-rank-li{
+    padding-left: 10px;
+    padding-bottom: 10px;
+    /*height: 120px;*/
+}
+.scenic-rank-li img{
+    width: 180px;
+    height: 100px;
+}
+.scenic-rank-li .scenic-desc{
+    padding: 0 10px;
+}
+.scenic-rank-li .single-score{
+    padding-left: 15px;
+
+}

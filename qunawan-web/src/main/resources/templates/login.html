@@ -11,7 +11,7 @@
     <script src="https://cdn.bootcss.com/vue/2.5.22/vue.min.js"></script>
 </head>
 <body>
-<div class="container" id="content">
+<div class="container" id="root">
     <div class="col-lg-4 col-lg-offset-7 ">
 
         <div class="col-lg-10 col-lg-offset-1 form-group">
@@ -70,7 +70,7 @@
 <script src="../static/js/common.js"></script>
 <script>
     var app = new Vue({
-        el: '#content',
+        el: '#root',
         data: {
             email: '',
             password: '',
