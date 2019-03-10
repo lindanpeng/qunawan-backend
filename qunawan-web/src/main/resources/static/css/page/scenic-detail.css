@@ -1,0 +1,26 @@
+#scenic-images{
+    width:300px;
+    height:200px;
+}
+.scenic-detail-img{
+    width: 300px;
+    height: 200px;
+}
+.scenic-num{
+    color: #FF9900;
+}
+.scenic-location{
+    color: #999999;
+}
+.scenic-price{
+    color:#FF0033;
+}
+.single-score{
+    padding-left: 15px;
+
+}
+.scenic-detail-info{
+    margin-left:0px;
+    padding-left: 0px;
+
+}

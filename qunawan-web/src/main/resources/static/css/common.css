@@ -23,3 +23,6 @@ hr {
 input::placeholder { /* Most modern browsers support this now. */
     color: #909;
 }
+h2{
+    margin-top: 0px;
+}

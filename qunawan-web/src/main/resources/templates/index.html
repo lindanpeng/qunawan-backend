@@ -11,19 +11,29 @@
     <link rel="stylesheet" href="../static/css/component/evaluate.css">
     <link rel="stylesheet" href="../static/css/component/panel.css">
     <link rel="stylesheet" href="../static/css/component/header.css">
+    <link rel="stylesheet" href="../static/css/component/evaluate-score.css">
     <link rel="stylesheet" href="../static/css/common.css">
     <script src="https://cdn.bootcss.com/vue/2.5.22/vue.min.js"></script>
 </head>
 <body>
-<div class="container" class="row">
+<div id="root" class="container">
     <div id="header">
         <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="container">
+            <div class="row">
                 <ul class="nav navbar-nav">
                     <li class="navbar-link front-page-link"><a href="#">首页</a></li>
                     <li class="navbar-link"><a href="#">最新</a></li>
                     <li class="navbar-link"><a href="#">最热</a></li>
                     <li class="navbar-link"><a href="#">猜你喜欢</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.nickname}}&nbsp;&nbsp;<img  class="img-circle" v-bind:src="user.avatar" width="28px" height="28px"></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">个人中心</a></li>
+                            <li><a href="#">退出</a></li>
+                        </ul>
+                    </li>
                 </ul>
                 <form class="navbar-form navbar-right">
                     <div class="input-group">
@@ -32,6 +42,7 @@
                                 class="glyphicon glyphicon-search"></span></button></span>
                     </div>
                 </form>
+
             </div>
         </nav>
     </div>
@@ -89,18 +100,21 @@
                 </h2></div>
                 <hr/>
                 <ul class="evaluate-list">
-                    <li class="evaluate-li">
+                    <li class="evaluate-li" v-for="evaluate in evaluates">
                         <div class="media evaluate-content">
                             <div class="media-left">
                                 <a href="#">
                                     <img class="media-object"
-                                         src="http://img4.duitang.com/uploads/item/201412/24/20141224224554_SuYth.thumb.700_0.jpeg"
+                                         src="http://img4.imgtn.bdimg.com/it/u=3779489909,4078114845&fm=26&gp=0.jpg"
                                          alt="...">
                                 </a>
                             </div>
                             <div class="media-body">
                                 <h5 class="media-heading">dumpling <span>点评了</span> <span>广州塔</span></h5>
-                                <p class="evaluate-score">🌟🌟🌟🌟🌟 5.0</p>
+                                <p class="star">
+                                    <span class="vote-star"><i v-bind:style="'width:'+evaluate.score*20+'%'"></i></span><span
+                                        class="vote-number"><span class="scenic-num">{{evaluate.score}}</span>分</span>
+                                </p>
                                 <p class="evaluate-remark">
                                     不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛</p>
                                 <p class="evaluate-time">2018-01-11</p>
@@ -111,7 +125,14 @@
             </div>
         </div>
         <div id="right" class="col-lg-3">
-            <div id="" style="background-color: aqua;height: 200px;"></div>
+            <div id="notice" class="panel">
+                <div class="panel-title"><h2>公告
+                </h2></div>
+                <hr/>
+                <div id="notice-content">
+                    暂停营业。。。
+                </div>
+            </div>
         </div>
     </div>
     <div id="footer"></div>
@@ -128,5 +149,17 @@
         crossorigin="anonymous"></script>
 <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
 <script src="../static/js/common.js"></script>
+<script>
+    var app = new Vue({
+        el: "#root",
+        data: {
+            user: {
+                nickname: "lindanpeng",
+                avatar: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1552218859896&di=0b9b0db927fd6e90dc030f4ab6a83576&imgtype=0&src=http%3A%2F%2Fimg5.duitang.com%2Fuploads%2Fitem%2F201409%2F23%2F20140923094045_BNYji.thumb.700_0.png"
+            },
+            evaluates: []
+        }
+    });
+</script>
 </body>
 </html>

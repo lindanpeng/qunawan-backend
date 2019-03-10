@@ -40,8 +40,7 @@ public class LoginController {
             logger.warn("参数错误");
             return ApiResponse.ERROR(CodeMsg.PARAMETER_ERROR);
         }
-        User user = userService.login(doLoginDto.getEmail(), doLoginDto.getPassword());
-        session.setAttribute("loginedUser", sessionService.getSessionData(user));
+        User user = sessionService.login(doLoginDto.getEmail(), doLoginDto.getPassword(),session);
         return ApiResponse.SUCCESS("");
     }
 //    @ResponseBody

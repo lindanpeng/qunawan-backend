@@ -5,13 +5,13 @@
 .panel-title {
     padding:0 10px;
     background-color: white;
-    height: 48px;
+    height: 40px;
 }
 
 .panel-title h2 {
     margin-top: 0px;
     font-size: 20px;
-    line-height: 48px;
+    line-height: 40px;
 }
 
 .panel-title .panel-title-showall {

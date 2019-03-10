@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>景点详情</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/css/page/index.css">
+    <link rel="stylesheet" href="../static/css/component/scenic-show.css">
+    <link rel="stylesheet" href="../static/css/component/evaluate.css">
+    <link rel="stylesheet" href="../static/css/component/panel.css">
+    <link rel="stylesheet" href="../static/css/component/header.css">
+    <link rel="stylesheet" href="../static/css/component/scenic-show.css">
+    <link rel="stylesheet" href="../static/css/component/scenic-nearby.css">
+    <link rel="stylesheet" href="../static/css/page/scenic-detail.css">
+    <link rel="stylesheet" href="../static/css/common.css">
+    <script src="https://cdn.bootcss.com/vue/2.5.22/vue.min.js"></script>
+</head>
+<body>
+<div id="root" class="container">
+    <div id="main" class="col-lg-9">
+        <div id="scenic-detail" class="panel">
+            <div class="panel-title"><h2>景点详情</h2></div>
+            <hr/>
+            <div class="row">
+                <!--轮播图-->
+                <div class="col-lg-5">
+                    <div id="scenic-images" class="carousel slide">
+                        <!-- 轮播（Carousel）指标 -->
+                        <ol class="carousel-indicators">
+                            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                            <li data-target="#myCarousel" data-slide-to="1"></li>
+                            <li data-target="#myCarousel" data-slide-to="2"></li>
+                        </ol>
+                        <!-- 轮播（Carousel）项目 -->
+                        <div class="carousel-inner">
+
+                            <div v-for="(imageUrl,index) in scenic.images" v-bind:class="index==0?'active':''"
+                                 class="item scenic-detail-img">
+                                <img v-bind:src="imageUrl">
+                            </div>
+                        </div>
+                        <!-- 轮播（Carousel）导航 -->
+                        <a class="left carousel-control" href="#scenic-images" role="button" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control" href="#scenic-images" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+                <!--信息-->
+                <div class="col-lg-7">
+                    <h2>{{scenic.name}}</h2>
+                    <div class="col-lg-6 scenic-detail-info">
+                        <p><span>{{scenic.province}}</span><span>{{scenic.city}}</span></p>
+                        <p><span class="scenic-location">[{{scenic.location}}]</span></p>
+                        <p><span></span>5.0</p>
+                        <p><span class="scenic-num">{{scenic.likeNum}}</span>人喜欢&nbsp;&nbsp;<span class="scenic-num">{{scenic.evaluateNum}}</span>人点评
+                        </p>
+                        <p style="font-size: 16px">门票：<span class="scenic-price">{{scenic.price}}</span></p>
+                    </div>
+                    <div class="col-lg-6 scenic-detail-info">
+                        <ul>
+                            <li class="pull-left single-score">
+                                <span>美丽：</span><span class="scenic-num">{{scenic.beauty}}</span>
+                            </li>
+                            <li>
+                                <span class="pull-left single-score">休闲：</span><span
+                                    class="scenic-num">{{scenic.ease}}</span>
+                            </li>
+                            <li>
+                                <span class="pull-left single-score">刺激：</span><span class="scenic-num">{{scenic.excitement}}</span>
+                            </li>
+                            <li>
+                                <span class="pull-left single-score">人文：</span><span class="scenic-num">{{scenic.humanity}}</span>
+                            </li>
+                            <li>
+                                <span class="pull-left single-score">浪漫：</span><span class="scenic-num">{{scenic.romantic}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div id="scenic-intro" class="panel">
+            <div class="panel-title"><h2>景点描述</h2></div>
+            <hr/>
+            <div v-html="scenic.intro">
+
+            </div>
+        </div>
+        <div id="scenic-evaluate" class="panel">
+            <div class="panel-title"><h2>景点评价<a class="panel-title-showall pull-right" href="#">>>查看全部&nbsp;&nbsp;</a></h2></div>
+            <hr/>
+            <div>
+
+            </div>
+        </div>
+    </div>
+    <div id="right" class="col-lg-3">
+        <div id="nearbyScenic" class="panel">
+            <div class="panel-title"><h2>我的足迹</h2></div>
+            <hr/>
+            <ul>
+                <li v-for="scenic in nearbyScenics" class="scenic-nearby-li">
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="#">
+                                <img class="media-object" v-bind:src="scenic.thumbnail" alt="...">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <h5 class="media-heading">{{scenic.name}}</h5>
+                            <p class="scenic-location">[{{scenic.location}}]</p>
+                            <br>
+                            <p><span><span class="scenic-num">{{scenic.likeNum}}</span>人喜欢</span></span>&nbsp;&nbsp;<span><span class="scenic-num">{{scenic.evaluateNum}}</span>人点评</span></p>
+
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+<script src="../static/js/common.js"></script>
+<script>
+    var app = new Vue({
+        el: '#root',
+        data: {
+            scenic: {
+                name: "广州塔",
+                images: [
+                    "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1551784776542&di=1711921e2943cf13ce344b1195b2d2de&imgtype=0&src=http%3A%2F%2Fpic40.photophoto.cn%2F20160928%2F0011034438439526_b.jpg",
+                    "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1551784776542&di=343e4ccf4cf9241711805050259b0fa8&imgtype=0&src=http%3A%2F%2Fwww.jituwang.com%2Fuploads%2Fallimg%2F151105%2F258117-15110510253542.jpg",
+                    "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1551784776541&di=363076d04dfa0d2908ae349d8bec87cf&imgtype=0&src=http%3A%2F%2Fimage.naic.org.cn%2Fuploadfile%2F2017%2F1020%2F1508482796076222.jpg"
+                ],
+                province: "广东省",
+                city: "广州市",
+                location: "天河区五山路",
+                price: 200,
+                intro: '<p>　　龙王洞位于湖南，龙王洞，洞中有水，洞中有洞，洞上叠洞，洞环水绕，景点密布，景观奇特，可谓步步有景，处处藏珍，十里曲洞，十里迷宫，十里玉琢，十里彩屏。而洞前有湖，洞口有河，则是其独特之处。游人泛舟徐进，由湖山一色渐入洞水一色之佳境。</p>\n' +
+                    '<p>　　穹顶洞壁的钟乳石投影水面，与水中晶莹玲珑的奇石浑然一体，在彩色灯光的照耀下，愈显绚丽多姿，使人恍若步入龙宫仙境。泛舟进洞四百米许，舍舟登岸，但见钟乳石千奇百怪，倒悬洞顶，石笋石柱错落：“朝龙殿”、“瑶池”、“灵芝宝菌”、“龙王宝座”等五十多处景观，今人目不暇接。更兼头顶滴水如琴，脚下清泉如瑟，冬暖夏凉，使人游兴愈浓，流连忘返。龙王洞在石门县城西北28公里处，正在1829省道干线边。距龙王洞8公里有热水溪温泉疗养中心。从龙王洞往西北5公里进入张家界市境内，可不经慈利县城，去索溪峪80公里。　　 龙王洞前是一平如镜的龙涎湖。洞中荡桨三百四十米，不仅可以领略水上洞天的幽趣，沿途还可饱览玉影池、芙蓉阁、象鼻岩、三足象及水下蓬莱等奇妙风光，令人情趣横生，心神怡然。</p>\n' +
+                    '<p>　　洞中景观大都显得湿漉漉，水灵灵、嫩生生，有的白如琼雪，有的黄如纯金，有的艳若新橙，且有阴河潺潺，清泉汩汩，细流叮咚，可谓声色并茂，水陆交融，形成了洞中鲜嫩柔美的和谐天地，具有一种妩媚的青春美。</p>\n' +
+                    '<p>　　洞府中步步有景，处处藏珍。仅已开放的一点五公里地段就已发现大、小景点近五十处，而且各个景点分布均匀，有的雄伟壮丽，有的玲珑剔透，或交错相呈，诸如朝龙殿、河马岩、凌霄殿、玉皇顶、锁龙潭、孽龙峡、槐荫仙树、神龙护宝、瑶池仙镜、迷宫、醉仙台等景观，无不酷似毕肖，形神兼备，叫人目不暇接，美不胜收。</p>',
+                score: 0,
+                beauty: 0,
+                ease: 0,
+                humanity: 0,
+                romantic: 0,
+                excitement: 0,
+                likeNum: 0,
+                evaluateNum: 0
+            },
+            evaluates: [
+                {
+                    userId: 0,
+                    scenicId: 0,
+                    nickname: "",
+                    avatar: "",
+                    score: 0,
+                    beauty: 0,
+                    ease: 0,
+                    humanity: 0,
+                    romantic: 0,
+                    excitement: 0,
+                    remark: "",
+                    people: "",
+                    createTime: "",
+                }
+            ],
+            nearbyScenics: [
+                {
+                    thumbnail:"https://bbswater-fd.zol-img.com.cn/t_s1200x5000/g5/M00/00/08/ChMkJlvHN7iIJ-4tAAQ0vpQTX9UAAsi5QIRy6kABDTW666.jpg",
+                    name:"广州塔",
+                    location:"广东省广州市",
+                    likeNum:5,
+                    evaluateNum:10,
+                    score:5
+                },
+                {
+                    thumbnail:"https://bbswater-fd.zol-img.com.cn/t_s1200x5000/g5/M00/00/08/ChMkJlvHN7iIJ-4tAAQ0vpQTX9UAAsi5QIRy6kABDTW666.jpg",
+                    name:"广州塔",
+                    location:"广东省广州市",
+                    likeNum:5,
+                    evaluateNum:10,
+                    scenic:5
+                }
+            ]
+        }
+    });
+</script>
+</body>
+</html>
