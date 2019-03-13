@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.lindanpeng.qunawan.core.dao.ScenicDao">
+    <select id="findById" parameterType="long" resultType="me.lindanpeng.qunawan.core.entity.Scenic">
+    select * from scenic where id = #{id}
+  </select>
+    <!--<update id="updateScenic">-->
+        <!--update scenic set-->
+        <!--<trim prefix="set" suffixOverrides=",">-->
+            <!--<if test="score != null">-->
+                <!--score=#{score},-->
+            <!--</if>-->
+            <!--<if test="beauty != null">-->
+                <!--beauty=#{beauty}-->
+            <!--</if>-->
+            <!--<if test="ease !=null">-->
+                <!--ease=#{ease},-->
+            <!--</if>-->
+            <!--<if test="bumanity !=null">-->
+                <!--humanity=#{humanity},-->
+            <!--</if>-->
+            <!--<if test="romantic !=null">-->
+                <!--romantic=#{romantic},-->
+            <!--</if>-->
+            <!--<if test="excitement!=null">-->
+                <!--excitement=#{excitement},-->
+            <!--</if>-->
+            <!--<if test="name!=null and name!=''">-->
+                <!--`name` =#{name},-->
+            <!--</if>-->
+
+        <!--</trim>-->
+
+    <!--</update>-->
+    <!--<select id="pageScenicOrderByScore">-->
+        <!--select * from scenic where-->
+        <!--<if test="provinceId != null">-->
+            <!--provinceId = #{provinceId}-->
+        <!--</if>-->
+        <!--<if test="cityId !=null">-->
+            <!--cityId =#{cityId}-->
+        <!--</if>-->
+        <!--order by score limit #{start},#{size}-->
+    <!--</select>-->
+</mapper>

@@ -120,4 +120,23 @@ public class Evaluate {
     public void setNickName(String nickName) {
         this.nickName = nickName;
     }
+
+    @Override
+    public String toString() {
+        return "Evaluate{" +
+                "id=" + id +
+                ", scenicId=" + scenicId +
+                ", userId=" + userId +
+                ", avatar='" + avatar + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", content='" + content + '\'' +
+                ", score=" + score +
+                ", beauty=" + beauty +
+                ", excitement=" + excitement +
+                ", ease=" + ease +
+                ", romantic=" + romantic +
+                ", humanity=" + humanity +
+                ", createTime=" + createTime +
+                '}';
+    }
 }

@@ -13,7 +13,40 @@ public class Scenic {
     private String city;
     private Short type;
     private String location;
+    private Long score;
+    private Long beauty;
+    private Long excitement;
+    private Long ease;
+    private Long romantic;
+    private Long humanity;
+    private Long evaluateCount;
+    private Long likeCount;
     private Date createTime;
+    private Date updateTime;
+
+    public Long getEvaluateCount() {
+        return evaluateCount;
+    }
+
+    public void setEvaluateCount(Long evaluateCount) {
+        this.evaluateCount = evaluateCount;
+    }
+
+    public Long getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(Long likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
     public Long getId() {
         return id;
@@ -102,5 +135,53 @@ public class Scenic {
 
     public void setType(Short type) {
         this.type = type;
+    }
+
+    public Long getScore() {
+        return score;
+    }
+
+    public void setScore(Long score) {
+        this.score = score;
+    }
+
+    public Long getBeauty() {
+        return beauty;
+    }
+
+    public void setBeauty(Long beauty) {
+        this.beauty = beauty;
+    }
+
+    public Long getExcitement() {
+        return excitement;
+    }
+
+    public void setExcitement(Long excitement) {
+        this.excitement = excitement;
+    }
+
+    public Long getEase() {
+        return ease;
+    }
+
+    public void setEase(Long ease) {
+        this.ease = ease;
+    }
+
+    public Long getRomantic() {
+        return romantic;
+    }
+
+    public void setRomantic(Long romantic) {
+        this.romantic = romantic;
+    }
+
+    public Long getHumanity() {
+        return humanity;
+    }
+
+    public void setHumanity(Long humanity) {
+        this.humanity = humanity;
     }
 }

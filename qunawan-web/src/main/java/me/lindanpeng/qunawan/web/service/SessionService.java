@@ -13,11 +13,13 @@ import javax.servlet.http.HttpSession;
 
 @Service
 public class SessionService extends AbstractService {
+    private final static String SESSION_KEY="loginedUser";
     private final Logger logger= LoggerFactory.getLogger(SessionService.class);
 
-    public SessionData getSessionData(User user){
+    public SessionData wrapSessionData(User user){
         SessionData sessionData=new SessionData();
         sessionData.setEmail(user.getEmail());
+        sessionData.setUserId(user.getId());
         return sessionData;
     }
     public User login(String email, String password, HttpSession session){
@@ -30,7 +32,11 @@ public class SessionService extends AbstractService {
             logger.warn("密码错误");
             throw new ServiceException(CodeMsg.ID_OR_PASSWD_ERROR);
         }
-        session.setAttribute("loginedUser", this.getSessionData(user));
+        session.setAttribute(SESSION_KEY, this.wrapSessionData(user));
         return user;
+    }
+    public SessionData loadSessionData(HttpSession session){
+        SessionData sessionData= (SessionData) session.getAttribute(SESSION_KEY);
+        return sessionData;
     }
 }

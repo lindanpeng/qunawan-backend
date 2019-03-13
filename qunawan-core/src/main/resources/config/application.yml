@@ -1,13 +1,15 @@
-datasource:
-  user:
-    url: jdbc:mysql://47.107.49.21:3306/qunawan?characterEncoding=utf-8
-    username: root
-    password: 123456
-    driver-class-name: com.mysql.jdbc.Driver
-
 mybatis:
   type-aliases-package:  me.lindanpeng.qunawan.core.entity
   mapper-locations: classpath:mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
-
+spring:
+  redis:
+    host: 47.107.49.21
+    port: 6379
+  datasource:
+    user:
+      url: jdbc:mysql://47.107.49.21:3306/qunawan?characterEncoding=utf-8
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.jdbc.Driver

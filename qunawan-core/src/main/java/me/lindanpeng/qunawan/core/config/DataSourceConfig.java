@@ -15,7 +15,7 @@ public class DataSourceConfig {
     private final static Logger logger= LoggerFactory.getLogger(DataSourceConfig.class);
     @Bean
     @Qualifier("userDataSource")
-    @ConfigurationProperties(prefix = "datasource.user")
+    @ConfigurationProperties(prefix = "spring.datasource.user")
     public DataSource userDataSource(){
        return new DruidDataSource();
     }
