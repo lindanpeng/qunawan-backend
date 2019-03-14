@@ -12,7 +12,11 @@ public class HtmlPathController {
         return "login";
     }
     @RequestMapping("/index")
-    public String index(HttpSession session){
+    public String index(){
         return "index";
+    }
+    @RequestMapping("/scenicRank/view")
+    public String toScenicRank(){
+        return "scenic_rank";
     }
 }

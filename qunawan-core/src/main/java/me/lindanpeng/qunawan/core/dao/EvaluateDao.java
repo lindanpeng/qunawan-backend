@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface EvaluateDao {
-    @Select("select * from evaluate where create_time >#{startTime} and create_time <=#{endTime} order by create_time desc limit #{start},#{size}")
-    List<Evaluate> listNewEvaluates(Date startTime,Date endTime, int start, int size);
+    List<Evaluate> getNewEvaluatesInTime(Date startTime, Date endTime, int start, int size);
+    List<Evaluate> getNewEvaluates(int start, int size);
+    int countAll();
 }

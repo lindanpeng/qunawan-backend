@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../static/css/component/scenic-rank.css">
     <link rel="stylesheet" href="../static/css/component/scenic-show.css">
     <link rel="stylesheet" href="../static/css/component/pagination-wrapper.css">
+    <link rel="stylesheet" href="../static/css/component/evaluate-score.css">
     <link rel="stylesheet" href="../static/css/common.css">
     <link rel="stylesheet" href="../static/css/page/rank.css">
     <script src="https://cdn.bootcss.com/vue/2.5.22/vue.min.js"></script>
@@ -25,27 +26,33 @@
             </h2></div>
             <hr/>
             <ul>
-                <li v-for="scenic in scenics" class="scenic-rank-li">
-                      <div class="media">
+                <li v-for="scenic in pageResult.content" class="scenic-rank-li">
+                    <div class="media">
                         <div class="media-left">
                             <a href="#">
-                                <img class="media-object" v-bind:src="scenic.thumbnail" alt="...">
+                                <img class="media-object" v-bind:src="scenic.thumbnail" v-bind:alt="scenic.name">
                             </a>
 
                         </div>
                         <div class="media-body">
                             <div class="col-lg-3">
-                            <h4 class="media-heading">{{scenic.name}}</h4>
-                            <p class="scenic-location">[{{scenic.location}}]</p>
-                            <p class="scenic-score">{{scenic.score}}</p>
-                            <p><span><span
-                                    class="scenic-num">{{scenic.likeNum}}</span>人喜欢</span></span>&nbsp;&nbsp;<span><span
-                                    class="scenic-num">{{scenic.evaluateNum}}</span>人点评</span></p>
+                                <h4 class="media-heading">{{scenic.name}}</h4>
+                                <p class="scenic-location">[{{scenic.province+' '+scenic.city}}]</p>
+                                <div class="scenic-score">
+
+                                    <p class="star">
+                                    <span class="vote-star"><i v-bind:style="'width:'+scenic.score*20+'%'"></i></span><span
+                                            class="vote-number"><span class="scenic-num">{{scenic.score}}</span>分</span>
+                                    </p>
+                                </div>
+                                <p><span><span
+                                        class="scenic-num">{{scenic.likeCount}}</span>人喜欢</span></span>&nbsp;&nbsp;<span><span
+                                        class="scenic-num">{{scenic.evaluateCount}}</span>人点评</span></p>
                             </div>
                             <div class="col-lg-6 col-lg-offset-3">
                                 <ul>
-                                    <li class="pull-left single-score">
-                                        <span>美丽：</span><span class="scenic-num">{{scenic.beauty}}</span>
+                                    <li>
+                                        <span class="pull-left single-score">美丽：</span><span class="scenic-num">{{scenic.beauty}}</span>
                                     </li>
                                     <li>
                                         <span class="pull-left single-score">休闲：</span><span class="scenic-num">{{scenic.ease}}</span>
@@ -64,8 +71,8 @@
                         </div>
                     </div>
                     <div class="scenic-desc">
-                        <p class="scenic-desc-txt">{{scenic.desc}}<a href="#" class="scenic-show-detail">>>更多</a></p>
-
+                        <p>{{cutString(scenic-desc,100)}}</p>
+                        <a v-bind:href="SCENIC_DETAIL_URL+'?scenicId='+scenic.id" class="scenic-show-detail">>>更多</a>
                     </div>
                 </li>
 
@@ -75,7 +82,7 @@
             <el-pagination
                     background
                     layout="prev, pager, next"
-                    :total="1000">
+                    :totalSize="pageResult.recordTotal">
             </el-pagination>
         </div>
     </div>
@@ -84,23 +91,23 @@
             <div class="panel-title"><h2>筛选条件</h2></div>
             <hr/>
             <p>
-            省份：
-            <el-select
-                    v-model="value9"
-                    multiple
-                    filterable
-                    remote
-                    reserve-keyword
-                    placeholder="请输入关键词"
-                    :remote-method="remoteMethod"
-                    :loading="loading">
-                <el-option
-                        v-for="item in options4"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </el-option>
-            </el-select>
+                省份：
+                <el-select
+                        v-model="searchCondition.value9"
+                        multiple
+                        filterable
+                        remote
+                        reserve-keyword
+                        placeholder="请输入关键词"
+                        :remote-method="remoteMethod"
+                        :loading="searchCondition.loading">
+                    <el-option
+                            v-for="item in searchCondition.options4"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
             </p>
         </div>
 
@@ -118,84 +125,83 @@
         crossorigin="anonymous"></script>
 <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="../static/js/common.js"></script>
 <script>
     var app = new Vue({
         el: '#root',
         data: {
-            options4: [],
-            value9: [],
-            list: [],
-            loading: false,
-            states: ["Alabama", "Alaska", "Arizona",
-                "Arkansas", "California", "Colorado",
-                "Connecticut", "Delaware", "Florida",
-                "Georgia", "Hawaii", "Idaho", "Illinois",
-                "Indiana", "Iowa", "Kansas", "Kentucky",
-                "Louisiana", "Maine", "Maryland",
-                "Massachusetts", "Michigan", "Minnesota",
-                "Mississippi", "Missouri", "Montana",
-                "Nebraska", "Nevada", "New Hampshire",
-                "New Jersey", "New Mexico", "New York",
-                "North Carolina", "North Dakota", "Ohio",
-                "Oklahoma", "Oregon", "Pennsylvania",
-                "Rhode Island", "South Carolina",
-                "South Dakota", "Tennessee", "Texas",
-                "Utah", "Vermont", "Virginia",
-                "Washington", "West Virginia", "Wisconsin",
-                "Wyoming"],
-            scenics: [
-                {
-                    thumbnail: "https://bbswater-fd.zol-img.com.cn/t_s1200x5000/g5/M00/00/08/ChMkJlvHN7iIJ-4tAAQ0vpQTX9UAAsi5QIRy6kABDTW666.jpg",
-                    name: "广州塔",
-                    location: "广东省广州市",
-                    likeNum: 5,
-                    evaluateNum: 10,
-                    desc:"广州塔没什么好看的广州塔没什么好看的广州塔没什么好看的广州塔没什么好看的广州塔没什么好看的广州塔没什么好看的广州塔没什么好看的",
-                    score: 5,
-                    beauty: 1.0,
-                    ease: 1.0,
-                    excitement: 2.0,
-                    humanity: 1.0,
-                    romantic: 2.0,
-                    people: [
-                        "学生",
-                        "情侣"
-                    ]
-                },
-                {
-                    thumbnail: "https://bbswater-fd.zol-img.com.cn/t_s1200x5000/g5/M00/00/08/ChMkJlvHN7iIJ-4tAAQ0vpQTX9UAAsi5QIRy6kABDTW666.jpg",
-                    name: "广州塔",
-                    location: "广东省广州市",
-                    likeNum: 5,
-                    evaluateNum: 10,
-                    desc:"广州塔没什么好看的",
-                    score: 5,
-                    beauty: 1.0,
-                    ease: 1.0,
-                    excitement: 2.0,
-                    humanity: 1.0,
-                    romantic: 2.0,
-                    people: [
-                        "学生",
-                        "情侣"
-                    ]
-                }
-            ]
+            searchCondition:{
+                options4: [],
+                value9: [],
+                list: [],
+                loading: false,
+            },
+
+            // states: ["Alabama", "Alaska", "Arizona",
+            //     "Arkansas", "California", "Colorado",
+            //     "Connecticut", "Delaware", "Florida",
+            //     "Georgia", "Hawaii", "Idaho", "Illinois",
+            //     "Indiana", "Iowa", "Kansas", "Kentucky",
+            //     "Louisiana", "Maine", "Maryland",
+            //     "Massachusetts", "Michigan", "Minnesota",
+            //     "Mississippi", "Missouri", "Montana",
+            //     "Nebraska", "Nevada", "New Hampshire",
+            //     "New Jersey", "New Mexico", "New York",
+            //     "North Carolina", "North Dakota", "Ohio",
+            //     "Oklahoma", "Oregon", "Pennsylvania",
+            //     "Rhode Island", "South Carolina",
+            //     "South Dakota", "Tennessee", "Texas",
+            //     "Utah", "Vermont", "Virginia",
+            //     "Washington", "West Virginia", "Wisconsin",
+            //     "Wyoming"],
+            pageResult: {}
         },
-        methods:{
-            remoteMethod:function(query) {
-                if (query !== '') {
-                    this.loading = true;
-                    setTimeout(() => {
-                        this.loading = false;
-                    this.options4 = this.list.filter(item => {
-                        return item.label.toLowerCase()
-                            .indexOf(query.toLowerCase()) > -1;
-                });
-                }, 200);
+        created: function () {
+            //加载热门景点数据
+            t=this.getQueryVariable("type")
+            _this=this
+            axios.get(SCENIC_RANK_DATA_URL + "?type="+t).then(function (response) {
+                if (response.status == 200) {
+                    if (response.data.code == 0) {
+                        console.log(response.data.data);
+                        _this.pageResult = response.data.data;
+                    } else {
+                        alert(response.data.message);
+                    }
                 } else {
-                    this.options4 = [];
+                    alert("服务器错误");
                 }
+            })
+        },
+        methods: {
+            remoteMethod: function (query) {
+                // if (query !== '') {
+                //     this.loading = true;
+                //     setTimeout(() => {
+                //         this.loading = false;
+                //     this.options4 = this.list.filter(item = > {
+                //         return item.label.toLowerCase()
+                //             .indexOf(query.toLowerCase()) > -1;
+                // })
+                //     ;
+                // },
+                //     200
+                // )
+                //     ;
+                // } else {
+                //     this.options4 = [];
+                // }
+            },
+            getQueryVariable: function (variable) {
+                var query = window.location.search.substring(1);
+                var vars = query.split("&");
+                for (var i = 0; i < vars.length; i++) {
+                    var pair = vars[i].split("=");
+                    if (pair[0] == variable) {
+                        return pair[1];
+                    }
+                }
+                return (false);
             }
         }
 

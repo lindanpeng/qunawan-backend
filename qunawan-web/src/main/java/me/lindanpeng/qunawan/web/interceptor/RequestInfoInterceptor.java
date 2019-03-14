@@ -1,6 +1,7 @@
 package me.lindanpeng.qunawan.web.interceptor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import me.lindanpeng.qunawan.core.util.MapUtil;
 import me.lindanpeng.qunawan.web.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,7 @@ public class RequestInfoInterceptor extends HandlerInterceptorAdapter {
     UserService userService;
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         logger.info("path:{}",request.getRequestURI());
+        logger.info("requestParam:{}", MapUtil.mapToString(request.getParameterMap()));
         return true;
     }
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable ModelAndView modelAndView) throws Exception {

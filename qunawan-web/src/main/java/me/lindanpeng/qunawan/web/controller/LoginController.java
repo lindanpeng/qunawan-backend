@@ -15,15 +15,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.http.HttpSession;
 
-@Controller
+@RestController
 public class LoginController {
     private final Logger logger = LoggerFactory.getLogger(LoginController.class);
     @Autowired
@@ -34,7 +31,6 @@ public class LoginController {
     ScenicService scenicService;
 
 
-    @ResponseBody
     @RequestMapping(value = "doLogin", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public ApiResponse doLogin(@RequestBody DoLoginDto doLoginDto, HttpSession session) {
         logger.info("requestBody:{}", doLoginDto);

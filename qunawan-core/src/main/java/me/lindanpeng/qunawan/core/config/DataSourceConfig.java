@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 import javax.sql.DataSource;
 
@@ -14,8 +15,9 @@ import javax.sql.DataSource;
 public class DataSourceConfig {
     private final static Logger logger= LoggerFactory.getLogger(DataSourceConfig.class);
     @Bean
-    @Qualifier("userDataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.user")
+    @Qualifier("primaryDataSource")
+    @ConfigurationProperties(prefix = "spring.datasource.primary")
+    @Primary
     public DataSource userDataSource(){
        return new DruidDataSource();
     }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.lindanpeng.qunawan.core.dao.UserDao">
+    <select id="findById" parameterType="long" resultType="me.lindanpeng.qunawan.core.entity.User">
+    select * from user where id = #{id}
+  </select>
+    <select id="findByEmail" resultType="me.lindanpeng.qunawan.core.entity.User">
+    select * from user where email = #{email}
+  </select>
+</mapper>

@@ -2,58 +2,79 @@ package me.lindanpeng.qunawan.web.controller;
 
 import me.lindanpeng.qunawan.core.entity.Scenic;
 import me.lindanpeng.qunawan.core.util.PageHelper;
+import me.lindanpeng.qunawan.web.constant.CommonConstant;
 import me.lindanpeng.qunawan.web.protocol.ApiResponse;
 import me.lindanpeng.qunawan.web.protocol.CodeMsg;
 import me.lindanpeng.qunawan.web.service.ScenicService;
 import me.lindanpeng.qunawan.web.service.UserService;
+import me.lindanpeng.qunawan.web.vo.ScenicPreviewVo;
+import me.lindanpeng.qunawan.web.vo.ScenicRankVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@Controller
+@RestController
 public class ScenicController {
+    private static final Logger logger = LoggerFactory.getLogger(ScenicController.class);
     @Autowired
     ScenicService scenicService;
     @Autowired
     UserService userService;
-    @RequestMapping(value = "hotScenics",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
-    public ApiResponse<PageHelper.PageResult<Scenic>> hotScenics(Integer provinceId, Integer cityId, Integer startPage, Integer pageSize){
-        if (pageSize==null||pageSize>50){
+
+    @RequestMapping(value = "/scenicPreview", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ApiResponse<PageHelper.PageResult<ScenicPreviewVo>> scenicPreview(Integer type, Integer provinceId, Integer cityId, Integer currentPage) {
+
+        if (currentPage == null || currentPage <= 0) {
+            currentPage=1;
+        }
+        PageHelper.PageResult<ScenicPreviewVo> pageResult;
+        if (type == CommonConstant.HOT_SCENIC_RANK_TYPE)
+            pageResult = scenicService.listHotScenicPreview(provinceId, cityId, currentPage);
+        else if (type == CommonConstant.NEW_SCENIC_RANK_TYPE)
+            pageResult = scenicService.listNewScenicPreview(provinceId, cityId, currentPage);
+        else{
+            logger.info("unexpected type");
             return ApiResponse.ERROR(CodeMsg.PARAMETER_ERROR);
         }
-        if (startPage!=null&&startPage<=0){
-            return ApiResponse.ERROR(CodeMsg.PARAMETER_ERROR);
-        }
-        if (startPage==null){
-            startPage=1;
-        }
-        PageHelper.PageResult<Scenic> pageResult=scenicService.listHotScenics(provinceId,cityId,startPage,pageSize);
         return ApiResponse.SUCCESS(pageResult);
 
     }
-    @RequestMapping(value = "newestScenics",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
-    public ApiResponse<PageHelper.PageResult<Scenic>> newestScenics(Integer provinceId, Integer cityId, Integer startPage, Integer pageSize){
-        if (pageSize==null||pageSize>50){
+    @RequestMapping(value = "scenicRank",method = RequestMethod.GET)
+    public ApiResponse<PageHelper.PageResult<ScenicRankVo>> scenicRank(Integer type, Integer provinceId, Integer cityId, Integer currentPage){
+        if (currentPage == null || currentPage <= 0) {
+            currentPage=1;
+        }
+        PageHelper.PageResult<ScenicRankVo> pageResult;
+        if (type == CommonConstant.HOT_SCENIC_RANK_TYPE)
+            pageResult = scenicService.listHotScenicRank(provinceId, cityId, currentPage);
+        else if (type == CommonConstant.NEW_SCENIC_RANK_TYPE)
+            pageResult = scenicService.listNewScenicRank(provinceId, cityId, currentPage);
+        else{
+            logger.info("unexpected type");
             return ApiResponse.ERROR(CodeMsg.PARAMETER_ERROR);
         }
-        if (startPage!=null&&startPage<=0){
-            return ApiResponse.ERROR(CodeMsg.PARAMETER_ERROR);
-        }
-        if (startPage==null){
-            startPage=1;
-        }
-        PageHelper.PageResult<Scenic> pageResult=scenicService.listNewestScenics(provinceId,cityId,startPage,pageSize);
         return ApiResponse.SUCCESS(pageResult);
+    }
+//    @RequestMapping(value = "/newScenics",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
+//    public ApiResponse<PageHelper.PageResult<ScenicPreviewVo>> newestScenics(Integer provinceId, Integer cityId, Integer currentPage, Integer pageSize){
+//        if (pageSize==null||pageSize>50){
+//            return ApiResponse.ERROR(CodeMsg.PARAMETER_ERROR);
+//        }
+//        if (currentPage!=null&&currentPage<=0){
+//            return ApiResponse.ERROR(CodeMsg.PARAMETER_ERROR);
+//        }
+//        if (currentPage==null){
+//            currentPage=1;
+//        }
+//        PageHelper.PageResult<ScenicPreviewVo> pageResult=scenicService.listNewScenicPreview(provinceId,cityId,currentPage,pageSize);
+//        return ApiResponse.SUCCESS(pageResult);
+//    }
 
-    }
-    @RequestMapping(value = "test")
-    public ApiResponse<Scenic> test(){
-        System.out.println(userService.getUserInfo(1L));
-        return ApiResponse.SUCCESS(scenicService.getScenic(2));
-    }
+//    @RequestMapping(value = "test")
+//    public ApiResponse<Scenic> test() {
+//        // System.out.println(userService.getUserInfo(1L).getNickname());
+//        return ApiResponse.SUCCESS(scenicService.getScenic(2));
+//    }
 
 }

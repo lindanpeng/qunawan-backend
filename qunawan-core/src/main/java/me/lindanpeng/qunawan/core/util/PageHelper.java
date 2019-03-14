@@ -3,22 +3,25 @@ package me.lindanpeng.qunawan.core.util;
 import java.util.List;
 
 public class PageHelper {
-   public static class PageResult<T>{
-        private int startPage;
+    public static final int DEFAULT_PAGE_SIZE=10;
+    public static final int MAX_PAGE_SIZE=50;
+    public static class PageResult<T>{
+        private int currentPage;
         private int pageSize;
-        private int total;
+        private int pageTotal;
+        private int recordTotal;
         private int nextPage;
         private int prevPage;
         private int fistPage;
         private int lastPage;
-        private List<T> pageData;
+        private List<T> content;
 
-        public int getStartPage() {
-            return startPage;
+        public int getCurrentPage() {
+            return currentPage;
         }
 
-        public void setStartPage(int startPage) {
-            this.startPage = startPage;
+        public void setCurrentPage(int currentPage) {
+            this.currentPage = currentPage;
         }
 
         public int getPageSize() {
@@ -29,13 +32,6 @@ public class PageHelper {
             this.pageSize = pageSize;
         }
 
-        public int getTotal() {
-            return total;
-        }
-
-        public void setTotal(int total) {
-            this.total = total;
-        }
 
         public int getNextPage() {
             return nextPage;
@@ -69,14 +65,30 @@ public class PageHelper {
             this.lastPage = lastPage;
         }
 
-        public List<T> getPageData() {
-            return pageData;
-        }
+       public int getPageTotal() {
+           return pageTotal;
+       }
 
-        public void setPageData(List<T> pageData) {
-            this.pageData = pageData;
-        }
-    }
+       public void setPageTotal(int pageTotal) {
+           this.pageTotal = pageTotal;
+       }
+
+       public int getRecordTotal() {
+           return recordTotal;
+       }
+
+       public void setRecordTotal(int recordTotal) {
+           this.recordTotal = recordTotal;
+       }
+
+       public List<T> getContent() {
+           return content;
+       }
+
+       public void setContent(List<T> content) {
+           this.content = content;
+       }
+   }
    public static class PageQuery{
         private int start;
         private int limit;
@@ -97,12 +109,32 @@ public class PageHelper {
             this.limit = limit;
         }
     }
-    public static <T> PageResult<T> getPageResult(List<T> list){
-        return null;
+    public static <T> PageResult<T> getPageResult(List<T> list,int count){
+       return getPageResult(list,count,DEFAULT_PAGE_SIZE);
     }
-    public static PageQuery getPageQuery(int page,int pageSize){
+
+    public static <T> PageResult<T> getPageResult(List<T> list,int count,int pageSize){
+        PageResult<T> pageResult=new PageResult<>();
+        pageResult.recordTotal=count;
+        pageResult.pageSize=pageSize;
+        pageResult.pageTotal=pageResult.recordTotal%pageResult.pageSize>0?pageResult.recordTotal/pageResult.pageSize+1:pageResult.recordTotal/pageResult.pageSize;
+        pageResult.lastPage=pageResult.pageTotal;
+        if (pageResult.currentPage>pageResult.fistPage){
+            pageResult.prevPage=pageResult.currentPage-1;
+        }else{
+            pageResult.prevPage=pageResult.fistPage;
+        }
+        if (pageResult.currentPage<pageResult.lastPage){
+            pageResult.nextPage=pageResult.currentPage+1;
+        }else{
+            pageResult.nextPage=pageResult.lastPage;
+        }
+        pageResult.setContent(list);
+        return pageResult;
+    }
+    public static PageQuery getPageQuery(int currentPage,int pageSize){
         PageQuery pageQuery=new PageQuery();
-        pageQuery.setStart(page>0?(page-1)*pageSize:0);
+        pageQuery.setStart(currentPage>0?(currentPage-1)*pageSize:0);
         pageQuery.setLimit(pageSize);
         return pageQuery;
     }

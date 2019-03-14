@@ -1,11 +1,14 @@
-package me.lindanpeng.qunawan.core.entity;
+package me.lindanpeng.qunawan.web.vo;
 
-import java.util.Date;
+import me.lindanpeng.qunawan.core.entity.Evaluate;
+import me.lindanpeng.qunawan.core.entity.Scenic;
+import me.lindanpeng.qunawan.core.util.DateUtils;
 
-public class Evaluate {
+public class EvaluateVo {
     private Long id;
     private Long scenicId;
     private Long userId;
+    private String scenicName;
     private String avatar;
     private String nickname;
     private String content;
@@ -15,7 +18,7 @@ public class Evaluate {
     private Integer ease;
     private Integer romantic;
     private Integer humanity;
-    private Date createTime;
+    private String createTime;
 
     public Long getId() {
         return id;
@@ -47,6 +50,14 @@ public class Evaluate {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public String getContent() {
@@ -105,38 +116,39 @@ public class Evaluate {
         this.humanity = humanity;
     }
 
-    public Date getCreateTime() {
+
+    public String getScenicName() {
+        return scenicName;
+    }
+
+    public void setScenicName(String scenicName) {
+        this.scenicName = scenicName;
+    }
+
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    @Override
-    public String toString() {
-        return "Evaluate{" +
-                "id=" + id +
-                ", scenicId=" + scenicId +
-                ", userId=" + userId +
-                ", avatar='" + avatar + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", content='" + content + '\'' +
-                ", score=" + score +
-                ", beauty=" + beauty +
-                ", excitement=" + excitement +
-                ", ease=" + ease +
-                ", romantic=" + romantic +
-                ", humanity=" + humanity +
-                ", createTime=" + createTime +
-                '}';
+    public  static EvaluateVo fromEvaluateAndScenic(Evaluate evaluate, Scenic scenic){
+        EvaluateVo evaluateVo=new EvaluateVo();
+        evaluateVo.setId(evaluate.getId());
+        evaluateVo.setUserId(evaluate.getUserId());
+        evaluateVo.setAvatar(evaluate.getAvatar());
+        evaluateVo.setNickname(evaluate.getNickname());
+        evaluateVo.setContent(evaluate.getContent());
+        evaluateVo.setCreateTime(DateUtils.dateToDateTime(evaluate.getCreateTime()));
+        evaluateVo.setEase(evaluate.getEase());
+        evaluateVo.setBeauty(evaluate.getBeauty());
+        evaluateVo.setRomantic(evaluateVo.getRomantic());
+        evaluateVo.setExcitement(evaluate.getExcitement());
+        evaluateVo.setHumanity(evaluate.getHumanity());
+        evaluateVo.setScenicId(evaluate.getScenicId());
+        evaluateVo.setScore(evaluate.getScore());
+        evaluateVo.setScenicName(scenic.getName());
+        return evaluateVo;
     }
 }

@@ -6,42 +6,63 @@
     <select id="findById" parameterType="long" resultType="me.lindanpeng.qunawan.core.entity.Scenic">
     select * from scenic where id = #{id}
   </select>
-    <!--<update id="updateScenic">-->
-        <!--update scenic set-->
-        <!--<trim prefix="set" suffixOverrides=",">-->
-            <!--<if test="score != null">-->
-                <!--score=#{score},-->
-            <!--</if>-->
-            <!--<if test="beauty != null">-->
-                <!--beauty=#{beauty}-->
-            <!--</if>-->
-            <!--<if test="ease !=null">-->
-                <!--ease=#{ease},-->
-            <!--</if>-->
-            <!--<if test="bumanity !=null">-->
-                <!--humanity=#{humanity},-->
-            <!--</if>-->
-            <!--<if test="romantic !=null">-->
-                <!--romantic=#{romantic},-->
-            <!--</if>-->
-            <!--<if test="excitement!=null">-->
-                <!--excitement=#{excitement},-->
-            <!--</if>-->
-            <!--<if test="name!=null and name!=''">-->
-                <!--`name` =#{name},-->
-            <!--</if>-->
-
-        <!--</trim>-->
-
-    <!--</update>-->
-    <!--<select id="pageScenicOrderByScore">-->
-        <!--select * from scenic where-->
-        <!--<if test="provinceId != null">-->
-            <!--provinceId = #{provinceId}-->
-        <!--</if>-->
-        <!--<if test="cityId !=null">-->
-            <!--cityId =#{cityId}-->
-        <!--</if>-->
-        <!--order by score limit #{start},#{size}-->
-    <!--</select>-->
+    <update id="updateScenic">
+        update scenic
+        <trim prefix="set" suffixOverrides=",">
+            <if test="score != null">
+                score=#{score},
+            </if>
+            <if test="beauty != null">
+                beauty=#{beauty},
+            </if>
+            <if test="ease !=null">
+                ease=#{ease},
+            </if>
+            <if test="humanity !=null">
+                humanity=#{humanity},
+            </if>
+            <if test="romantic !=null">
+                romantic=#{romantic},
+            </if>
+            <if test="excitement!=null">
+                excitement=#{excitement},
+            </if>
+            <if test="name!=null and name!=''">
+                `name` =#{name},
+            </if>
+            <if test="evaluateCount!=null">
+                evaluate_count =#{evaluateCount},
+            </if>
+        </trim>
+         where id = #{id}
+    </update>
+    <select id="listOrderByScore" resultType="me.lindanpeng.qunawan.core.entity.Scenic">
+        select * from scenic where 1=1
+        <if test="provinceId != null">
+            and provinceId = #{provinceId}
+        </if>
+        <if test="cityId !=null">
+            and cityId =#{cityId}
+        </if>
+        order by score limit #{start},#{size}
+    </select>
+    <select id="listOrderByCreateTime" resultType="me.lindanpeng.qunawan.core.entity.Scenic">
+        select * from scenic where 1=1
+        <if test="provinceId != null">
+            and provinceId = #{provinceId}
+        </if>
+        <if test="cityId !=null">
+            and cityId =#{cityId}
+        </if>
+        order by create_time limit #{start},#{size}
+    </select>
+    <select id="countByCondition" resultType="int">
+        select count(*) from scenic where 1=1
+        <if test="provinceId != null">
+            and provinceId = #{provinceId}
+        </if>
+        <if test="cityId !=null">
+            and cityId =#{cityId}
+        </if>
+    </select>
 </mapper>

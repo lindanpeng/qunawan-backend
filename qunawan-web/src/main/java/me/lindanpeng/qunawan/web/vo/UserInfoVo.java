@@ -2,6 +2,7 @@ package me.lindanpeng.qunawan.web.vo;
 
 import me.lindanpeng.qunawan.core.entity.User;
 import me.lindanpeng.qunawan.core.entity.dict.UserDict;
+import me.lindanpeng.qunawan.core.util.DateUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -66,6 +67,7 @@ public class UserInfoVo {
         userInfoVo.setAvatar(user.getAvatar());
         userInfoVo.setGender(UserDict.GENDER_MAP.get(user.getGender()));
         userInfoVo.setIdentity(UserDict.IDENTITY_MAP.get(user.getIdentity()));
+        userInfoVo.setBirthday(DateUtils.dateToDateTime(user.getBirthday()));
         return userInfoVo;
     }
 
