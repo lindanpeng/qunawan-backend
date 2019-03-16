@@ -32,7 +32,7 @@ public class LoginController {
 
 
     @RequestMapping(value = "doLogin", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public ApiResponse doLogin(@RequestBody DoLoginDto doLoginDto, HttpSession session) {
+    public ApiResponse<String> doLogin(@RequestBody DoLoginDto doLoginDto, HttpSession session) {
         logger.info("requestBody:{}", doLoginDto);
         if (StringUtils.isEmpty(doLoginDto.getEmail()) || StringUtils.isEmpty(doLoginDto.getPassword())) {
             logger.warn("参数错误");
@@ -41,6 +41,10 @@ public class LoginController {
         User user = sessionService.login(doLoginDto.getEmail(), doLoginDto.getPassword(),session);
         return ApiResponse.SUCCESS("");
     }
-
+    @RequestMapping(value = "logout")
+    public ApiResponse logout(HttpSession session){
+        sessionService.clearSessionData(session);
+        return ApiResponse.SUCCESS("");
+    }
 
 }

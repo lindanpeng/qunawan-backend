@@ -7,6 +7,7 @@ import me.lindanpeng.qunawan.web.protocol.ApiResponse;
 import me.lindanpeng.qunawan.web.protocol.CodeMsg;
 import me.lindanpeng.qunawan.web.service.ScenicService;
 import me.lindanpeng.qunawan.web.service.UserService;
+import me.lindanpeng.qunawan.web.vo.ScenicDetailVo;
 import me.lindanpeng.qunawan.web.vo.ScenicPreviewVo;
 import me.lindanpeng.qunawan.web.vo.ScenicRankVo;
 import org.slf4j.Logger;
@@ -47,15 +48,25 @@ public class ScenicController {
         }
         PageHelper.PageResult<ScenicRankVo> pageResult;
         if (type == CommonConstant.HOT_SCENIC_RANK_TYPE)
-            pageResult = scenicService.listHotScenicRank(provinceId, cityId, currentPage);
+            pageResult = scenicService.listHotScenicRank(provinceId, cityId, currentPage,PageHelper.DEFAULT_PAGE_SIZE);
         else if (type == CommonConstant.NEW_SCENIC_RANK_TYPE)
-            pageResult = scenicService.listNewScenicRank(provinceId, cityId, currentPage);
+            pageResult = scenicService.listNewScenicRank(provinceId, cityId, currentPage,PageHelper.DEFAULT_PAGE_SIZE);
         else{
             logger.info("unexpected type");
             return ApiResponse.ERROR(CodeMsg.PARAMETER_ERROR);
         }
         return ApiResponse.SUCCESS(pageResult);
     }
+    @RequestMapping(value = "scenicDetail",method = RequestMethod.GET)
+    public ApiResponse<ScenicDetailVo> scenicDetail(Long scenicId){
+        if (scenicId==null){
+            logger.info("wrong scenicId");
+            return ApiResponse.ERROR(CodeMsg.PARAMETER_ERROR);
+        }
+        ScenicDetailVo scenicDetailVo=scenicService.getScenicDetail(scenicId);
+        return ApiResponse.SUCCESS(scenicDetailVo);
+    }
+
 //    @RequestMapping(value = "/newScenics",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
 //    public ApiResponse<PageHelper.PageResult<ScenicPreviewVo>> newestScenics(Integer provinceId, Integer cityId, Integer currentPage, Integer pageSize){
 //        if (pageSize==null||pageSize>50){

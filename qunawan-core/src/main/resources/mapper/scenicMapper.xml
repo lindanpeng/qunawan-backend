@@ -44,7 +44,7 @@
         <if test="cityId !=null">
             and cityId =#{cityId}
         </if>
-        order by score limit #{start},#{size}
+        order by score/evaluate_count desc limit #{start},#{size}
     </select>
     <select id="listOrderByCreateTime" resultType="me.lindanpeng.qunawan.core.entity.Scenic">
         select * from scenic where 1=1
@@ -64,5 +64,11 @@
         <if test="cityId !=null">
             and cityId =#{cityId}
         </if>
+    </select>
+    <select id="listInTime" resultType="me.lindanpeng.qunawan.core.entity.Scenic">
+        select * from scenic where 1=1
+        and create_time&gt;#{startTime}
+        and create_time&lt;=#{endTime}
+        limit #{start},#{size}
     </select>
 </mapper>

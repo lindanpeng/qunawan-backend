@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpSession;
 
 @Controller
-public class HtmlPathController {
+public class RouterController {
     @RequestMapping("/login")
     public String toLogin() {
         return "login";
@@ -18,5 +18,17 @@ public class HtmlPathController {
     @RequestMapping("/scenicRank/view")
     public String toScenicRank(){
         return "scenic_rank";
+    }
+    @RequestMapping("scenicDetail/view")
+    public String toScenicDetail(){
+        return "scenic_detail";
+    }
+    @RequestMapping("/home")
+    public String toHome(){
+        return "person";
+    }
+    @RequestMapping("/evaluates/view")
+    public String toEvaluates(){
+        return "evaluate";
     }
 }

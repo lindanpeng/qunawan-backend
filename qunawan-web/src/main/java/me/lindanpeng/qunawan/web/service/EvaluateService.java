@@ -11,17 +11,41 @@ import java.util.List;
 
 @Service
 public class EvaluateService extends AbstractService{
-    public PageHelper.PageResult<EvaluateVo> listNewEvaluate(int currentPage, int pageSize){
+    public PageHelper.PageResult<EvaluateVo> getEvaluates(Long scenicId,int currentPage, int pageSize){
         PageHelper.PageQuery pageQuery=PageHelper.getPageQuery(currentPage,pageSize);
-        List<Evaluate> list=evaluateDao.getNewEvaluates(pageQuery.getStart(),pageQuery.getLimit());
+        List<Evaluate> list=evaluateDao.getEvaluates(scenicId,pageQuery.getStart(),pageQuery.getLimit());
         List<EvaluateVo> evaluateVos=new ArrayList<>(list.size());
         for (Evaluate evaluate:list){
             Scenic scenic=scenicDao.findById(evaluate.getScenicId());
             EvaluateVo evaluateVo=EvaluateVo.fromEvaluateAndScenic(evaluate,scenic);
             evaluateVos.add(evaluateVo);
         }
-        int count=evaluateDao.countAll();
-        PageHelper.PageResult<EvaluateVo> res=PageHelper.getPageResult(evaluateVos,count,8);
+        int count=evaluateDao.countByCondition(scenicId);
+        PageHelper.PageResult<EvaluateVo> res=PageHelper.getPageResult(evaluateVos,count,pageSize);
         return res;
     }
+    public List<EvaluateVo> userEvaluates(Long userId){
+        List<Evaluate> list=evaluateDao.userEvaluates(userId);
+        List<EvaluateVo> evaluateVos=new ArrayList<>(list.size());
+        for (Evaluate evaluate:list){
+            Scenic scenic=scenicDao.findById(evaluate.getScenicId());
+            EvaluateVo evaluateVo=EvaluateVo.fromEvaluateAndScenic(evaluate,scenic);
+            evaluateVos.add(evaluateVo);
+        }
+        return evaluateVos;
+    }
+
+//    public PageHelper.PageResult<EvaluateVo> scenicEvaluates(long scenicId,int currentPage,int pageSize){
+//        PageHelper.PageQuery pageQuery= PageHelper.getPageQuery(currentPage,pageSize);
+//        List<Evaluate> list=evaluateDao.getEvaluates(scenicId,pageQuery.getStart(),pageQuery.getLimit());
+//        List<EvaluateVo> evaluateVos=new ArrayList<>(list.size());
+//        for (Evaluate evaluate:list){
+//            Scenic scenic=scenicDao.findById(evaluate.getScenicId());
+//            EvaluateVo evaluateVo=EvaluateVo.fromEvaluateAndScenic(evaluate,scenic);
+//            evaluateVos.add(evaluateVo);
+//        }
+//        int count=evaluateDao.countAll();
+//        PageHelper.PageResult<EvaluateVo> res=PageHelper.getPageResult(evaluateVos,count,pageSize);
+//        return res;
+//    }
 }

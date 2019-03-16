@@ -34,22 +34,22 @@ public class UpdateScenicScoreJob extends AbstractJob {
     private final int LIMIT_SIZE = 1000;
 
     //增量更新景点评分
-    @Scheduled(fixedDelay = 6000 * 1000)
+   // @Scheduled(fixedDelay = 60 * 1000)
     public void updateScenicScoreIncrementally() throws ParseException {
         logger.info("[updateScenicScoreJob] start...");
         Date now = new Date();
-//        Date startTime = (Date) commonRedisClient.get(CACHE_KEY);
-//        if (startTime == null)
-//            startTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("1970-01-01 00:00:00");
-         Date  startTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("1970-01-01 00:00:00");
-
-        int fetchSize;
+        Date startTime = (Date) commonRedisClient.get(CACHE_KEY);
+        if (startTime == null)
+            startTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("1970-01-01 00:00:00");
+        int fetchSize=0;
         int start = 0;
-        Map<Long, Map<String, Integer>> scoreMap = new HashMap<>();
-        Map<Long, Long> countMap = new HashMap<>();
+
         do {
+            Map<Long, Map<String, Integer>> scoreMap = new HashMap<>();
+            Map<Long, Long> countMap = new HashMap<>();
             List<Evaluate> evaluates = evaluateDao.getNewEvaluatesInTime(startTime, now, start, LIMIT_SIZE);
             fetchSize = evaluates.size();
+            logger.info("[updateScenicScoreJob] start={},fetchSize={}",start,fetchSize);
             start = fetchSize + start;
             for (Evaluate e : evaluates) {
                 Map<String, Integer> map = scoreMap.getOrDefault(e.getScenicId(), new HashMap<>());
@@ -58,11 +58,12 @@ public class UpdateScenicScoreJob extends AbstractJob {
                 map.put("excitement", map.getOrDefault("excitement", 0) + e.getExcitement());
                 map.put("humanity", map.getOrDefault("humanity", 0) + e.getHumanity());
                 map.put("romantic", map.getOrDefault("romantic", 0) + e.getRomantic());
-                map.put("score", map.getOrDefault("score", 0) + e.getRomantic());
+                map.put("score", map.getOrDefault("score", 0) + e.getScore());
                 scoreMap.put(e.getScenicId(), map);
 
                 countMap.put(e.getScenicId(), countMap.getOrDefault(e.getScenicId(), 0L) + 1);
             }
+            logger.info("scoreMap size={}",scoreMap.size());
             for (Map.Entry<Long, Map<String, Integer>> e : scoreMap.entrySet()) {
                 long id = e.getKey();
                 Scenic scenic = scenicDao.findById(id);
@@ -84,7 +85,7 @@ public class UpdateScenicScoreJob extends AbstractJob {
             }
         } while (fetchSize >= LIMIT_SIZE);
         commonRedisClient.set(CACHE_KEY, now);
-        logger.info("[updateScenicScoreJob] next start time:{}",startTime);
+        logger.info("[updateScenicScoreJob] next start time:{}",now);
         logger.info("[updateScenicScoreJob] end...");
     }
 

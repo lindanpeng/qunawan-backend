@@ -17,15 +17,25 @@
     <script src="https://cdn.bootcss.com/vue/2.5.22/vue.min.js"></script>
 </head>
 <body>
-<div id="root" class="container" class="row">
+<div id="root" class="container">
     <div id="header">
         <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="container">
+            <div class="row">
                 <ul class="nav navbar-nav">
-                    <li class="navbar-link front-page-link"><a href="#">首页</a></li>
-                    <li class="navbar-link"><a href="#">最新</a></li>
-                    <li class="navbar-link"><a href="#">最热</a></li>
-                    <li class="navbar-link"><a href="#">猜你喜欢</a></li>
+                    <li class="navbar-link front-page-link"><a v-bind:href="constant.INDEX_URL">首页</a></li>
+                    <li class="navbar-link"><a v-bind:href="constant.HOT_SCENIC_VIEW_URL">最热</a></li>
+                    <li class="navbar-link"><a b-bind:href="constant.NEW_SCENIC_VIEW_URL">最新</a></li>
+                    <li class="navbar-link"><a v-bind:href="constant.RECOMMEND_SCENIC_VIEW_URL">猜你喜欢</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.nickname}}&nbsp;&nbsp;<img
+                                class="img-circle" v-bind:src="user.avatar" width="28px" height="28px"></a>
+                        <ul class="dropdown-menu">
+                            <li><a v-bind:href="constant.HOME_URL">个人中心</a></li>
+                            <li><a v-bind:href="constant.LOGOUT_URL">退出</a></li>
+                        </ul>
+                    </li>
                 </ul>
                 <form class="navbar-form navbar-right">
                     <div class="input-group">
@@ -34,6 +44,7 @@
                                 class="glyphicon glyphicon-search"></span></button></span>
                     </div>
                 </form>
+
             </div>
         </nav>
     </div>
@@ -73,53 +84,71 @@
                     </div>
                 </div>
             </div>
-            <div id="like" class="panel">
-                <div class="panel-title"><h2>我的喜欢<span><a class="panel-title-showall pull-right" href="#">>>展示全部&nbsp;&nbsp;</a></span>
-                </h2></div>
-                <hr/>
-                <div class="scenic-show-content">
-                    <ul>
-                        <li class="scenic-show-li pull-left col-lg-3">
+            <!--<div id="like" class="panel">-->
+                <!--<div class="panel-title"><h2>我的喜欢<span><a class="panel-title-showall pull-right" href="#">>>展示全部&nbsp;&nbsp;</a></span>-->
+                <!--</h2></div>-->
+                <!--<hr/>-->
+                <!--<div class="scenic-show-content">-->
+                    <!--<ul>-->
+                        <!--<li class="scenic-show-li pull-left col-lg-3">-->
 
-                            <div class="scenic-thumbnail">
-                                <img src="https://bbswater-fd.zol-img.com.cn/t_s1200x5000/g5/M00/00/08/ChMkJlvHN7iIJ-4tAAQ0vpQTX9UAAsi5QIRy6kABDTW666.jpg">
-                                <p class="scenic-name">广州塔</p>
-                            </div>
+                            <!--<div class="scenic-thumbnail">-->
+                                <!--<img src="https://bbswater-fd.zol-img.com.cn/t_s1200x5000/g5/M00/00/08/ChMkJlvHN7iIJ-4tAAQ0vpQTX9UAAsi5QIRy6kABDTW666.jpg">-->
+                                <!--<p class="scenic-name">广州塔</p>-->
+                            <!--</div>-->
 
-                            <div class="scenic-score">
-                                <p>5.0</p>
-                            </div>
+                            <!--<div class="scenic-score">-->
+                                <!--<p>5.0</p>-->
+                            <!--</div>-->
 
-                        </li>
+                        <!--</li>-->
 
-                    </ul>
-                    <div style="clear:both"></div>
-                </div>
-            </div>
+                    <!--</ul>-->
+                    <!--<div style="clear:both"></div>-->
+                <!--</div>-->
+            <!--</div>-->
             <div id="my-evaluate" class="panel">
                     <div class="panel-title"><h2>我的评价<span><a class="panel-title-showall pull-right" href="#">>>查看全部&nbsp;&nbsp;</a></span>
                     </h2></div>
                     <hr/>
-                    <ul class="evaluate-list">
-                        <li class="evaluate-li">
-                            <div class="media evaluate-content">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object"
-                                             src="http://img4.duitang.com/uploads/item/201412/24/20141224224554_SuYth.thumb.700_0.jpeg"
-                                             alt="...">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <h5 class="media-heading">dumpling <span>点评了</span> <span>广州塔</span></h5>
-                                    <p class="evaluate-score">🌟🌟🌟🌟🌟 5.0</p>
-                                    <p class="evaluate-remark">
-                                        不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛不知道干嘛</p>
-                                    <p class="evaluate-time">2018-01-11</p>
-                                </div>
+                <ul class="evaluate-list">
+                    <li class="evaluate-li" v-for="evaluate in evaluates">
+                        <div class="media evaluate-content">
+                            <div class="media-left">
+                                <a href="#">
+                                    <img class="media-object"
+                                         v-bind:src="evaluate.avatar"
+                                         v-bind:alt="evaluate.nickname">
+                                </a>
                             </div>
-                        </li>
-                    </ul>
+                            <div class="media-body">
+                                <h5 class="media-heading"><span>点评了</span>
+                                    <span>{{evaluate.scenicName}}</span>
+                                </h5>
+                                <p class="star">
+                                    <span class="vote-star"><i v-bind:style="'width:'+evaluate.score*20+'%'"></i></span><span
+                                        class="vote-number"><span class="scenic-num">{{evaluate.score}}</span>分</span>
+                                </p>
+                                <p>单项评分：
+                                    <span>美丽：{{evaluate.beauty}}</span>
+                                    &nbsp;&nbsp;
+                                    <span>浪漫：{{evaluate.romantic}}</span>
+                                    &nbsp;&nbsp;
+                                    <span>休闲：{{evaluate.ease}}</span>
+                                    &nbsp;&nbsp;
+                                    <span>人文：{{evaluate.humanity}}</span>
+                                    &nbsp;&nbsp;
+                                    <span>兴奋：{{evaluate.excitement}}</span>
+                                </p>
+                                <p class="evaluate-remark">
+                                    {{evaluate.content}}
+                                </p>
+                                <p>适合人群：{{evaluate.people}}</p>
+                                <p class="evaluate-time">{{evaluate.createTime}}</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
         <div id="right" class="col-lg-3">
@@ -165,15 +194,17 @@
     var app = new Vue({
         el: '#root',
         data: {
-            user: {
-                avatar: "http://img5.duitang.com/uploads/item/201409/23/20140923094045_BNYji.thumb.700_0.png",
-                nickname: "lindanpeng",
-                gender: "男",
-                location: "广东省汕头市",
-                birthday:"2000-10-1 10:10:00",
-                married:"否",
-                identity:"学生"
+            constant: {
+                INDEX_URL: INDEX_URL,
+                SCENIC_DATA_URL: SCENIC_PREVIEW_DATA_URL,
+                HOT_SCENIC_VIEW_URL: SCENIC_PREVIEW_VIEW_URL+"?type=0",
+                NEW_SCENIC_VIEW_URL: SCENIC_PREVIEW_VIEW_URL+"?type=1",
+                RECOMMEND_SCENIC_VIEW_URL: SCENIC_PREVIEW_VIEW_URL+"?type=2",
+                NEW_EVALUATE_VIEW_URL: NEW_EVALUATE_VIEW_URL,
+                HOME_URL: HOME_URL,
+                LOGOUT_URL: LOGOUT_URL
             },
+            user: {},
             scenics:[
                 {
                     thumbnail:"https://bbswater-fd.zol-img.com.cn/t_s1200x5000/g5/M00/00/08/ChMkJlvHN7iIJ-4tAAQ0vpQTX9UAAsi5QIRy6kABDTW666.jpg",
@@ -191,7 +222,39 @@
                     evaluateNum:10,
                     scenic:5
                 }
-            ]
+            ],
+            evaluates:[]
+        },
+        created: function () {
+            _this = this
+            //加载用户数据
+            axios.get(USER_INFO_URL).then(function (response) {
+                if (response.status == 200) {
+                    if (response.data.code == 0) {
+                        // console.log(response.data.data);
+                        _this.user = response.data.data;
+                    } else {
+                        alert(response.data.message);
+                    }
+                } else {
+                    alert("服务器错误");
+                }
+            }).then(function () {
+                uid=_this.user.userId
+                axios.get(USER_EVALUATE_DATA_URL + "?userId=" + uid).then(function (response) {
+                    if (response.status == 200) {
+                        if (response.data.code == 0) {
+                            console.log(response.data.data);
+                            _this.evaluates = response.data.data;
+                        } else {
+                            alert(response.data.message);
+                        }
+                    } else {
+                        alert("服务器错误");
+                    }
+                })
+            })
+
         }
     })
 </script>

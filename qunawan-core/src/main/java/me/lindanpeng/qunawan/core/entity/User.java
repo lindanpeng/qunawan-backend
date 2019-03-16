@@ -8,10 +8,10 @@ public class User {
     private String password;
     private String nickname;
     private String avatar;
-    private Short gender;
-    private Short identity;
-    private Short married;
-    private Short state;
+    private Integer gender;
+    private Integer identity;
+    private Integer married;
+    private Integer state;
     private Integer provinceId;
     private Integer cityId;
     private String province;
@@ -54,12 +54,8 @@ public class User {
         this.nickname = nickname;
     }
 
-    public Short getGender() {
+    public Integer getGender() {
         return gender;
-    }
-
-    public void setGender(Short gender) {
-        this.gender = gender;
     }
 
     public Date getBirthday() {
@@ -104,27 +100,31 @@ public class User {
         this.updateTime = updateTime;
     }
 
-    public Short getIdentity() {
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
+    public Integer getIdentity() {
         return identity;
     }
 
-    public void setIdentity(Short identity) {
+    public void setIdentity(Integer identity) {
         this.identity = identity;
     }
 
-    public Short getMarried() {
+    public Integer getMarried() {
         return married;
     }
 
-    public void setMarried(Short married) {
+    public void setMarried(Integer married) {
         this.married = married;
     }
 
-    public Short getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(Short state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 

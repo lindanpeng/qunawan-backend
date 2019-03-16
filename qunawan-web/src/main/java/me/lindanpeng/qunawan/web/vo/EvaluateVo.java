@@ -18,6 +18,7 @@ public class EvaluateVo {
     private Integer ease;
     private Integer romantic;
     private Integer humanity;
+    private String people;
     private String createTime;
 
     public Long getId() {
@@ -133,6 +134,14 @@ public class EvaluateVo {
         this.createTime = createTime;
     }
 
+    public String getPeople() {
+        return people;
+    }
+
+    public void setPeople(String people) {
+        this.people = people;
+    }
+
     public  static EvaluateVo fromEvaluateAndScenic(Evaluate evaluate, Scenic scenic){
         EvaluateVo evaluateVo=new EvaluateVo();
         evaluateVo.setId(evaluate.getId());
@@ -143,12 +152,13 @@ public class EvaluateVo {
         evaluateVo.setCreateTime(DateUtils.dateToDateTime(evaluate.getCreateTime()));
         evaluateVo.setEase(evaluate.getEase());
         evaluateVo.setBeauty(evaluate.getBeauty());
-        evaluateVo.setRomantic(evaluateVo.getRomantic());
+        evaluateVo.setRomantic(evaluate.getRomantic());
         evaluateVo.setExcitement(evaluate.getExcitement());
         evaluateVo.setHumanity(evaluate.getHumanity());
         evaluateVo.setScenicId(evaluate.getScenicId());
         evaluateVo.setScore(evaluate.getScore());
         evaluateVo.setScenicName(scenic.getName());
+        evaluateVo.setPeople(evaluate.getPeople());
         return evaluateVo;
     }
 }

@@ -21,6 +21,8 @@
 
     width: 180px;
     height: 100px;
+    min-width: 180px;
+    min-height: 100px;
 }
 .scenic-show-li .scenic-name {
     position: absolute;

@@ -39,4 +39,7 @@ public class SessionService extends AbstractService {
         SessionData sessionData= (SessionData) session.getAttribute(SESSION_KEY);
         return sessionData;
     }
+    public void clearSessionData(HttpSession session){
+        session.setAttribute(SESSION_KEY,null);
+    }
 }

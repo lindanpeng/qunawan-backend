@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UserInfoVo {
+    private Long userId;
     private String avatar;
     private String nickname;
     private String gender;
@@ -58,6 +59,14 @@ public class UserInfoVo {
         return avatar;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
@@ -68,6 +77,8 @@ public class UserInfoVo {
         userInfoVo.setGender(UserDict.GENDER_MAP.get(user.getGender()));
         userInfoVo.setIdentity(UserDict.IDENTITY_MAP.get(user.getIdentity()));
         userInfoVo.setBirthday(DateUtils.dateToDateTime(user.getBirthday()));
+        userInfoVo.setUserId(user.getId());
+        userInfoVo.setLocation(user.getProvince()+user.getCity());
         return userInfoVo;
     }
 

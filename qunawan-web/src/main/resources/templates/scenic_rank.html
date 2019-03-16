@@ -20,6 +20,36 @@
 </head>
 <body>
 <div id="root" class="container">
+    <div id="header">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="row">
+                <ul class="nav navbar-nav">
+                    <li class="navbar-link front-page-link"><a v-bind:href="constant.INDEX_URL">首页</a></li>
+                    <li class="navbar-link"><a v-bind:href="constant.HOT_SCENIC_VIEW_URL">最热</a></li>
+                    <li class="navbar-link"><a b-bind:href="constant.NEW_SCENIC_VIEW_URL">最新</a></li>
+                    <li class="navbar-link"><a v-bind:href="constant.RECOMMEND_SCENIC_VIEW_URL">猜你喜欢</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.nickname}}&nbsp;&nbsp;<img
+                                class="img-circle" v-bind:src="user.avatar" width="28px" height="28px"></a>
+                        <ul class="dropdown-menu">
+                            <li><a v-bind:href="constant.HOME_URL">个人中心</a></li>
+                            <li><a v-bind:href="constant.LOGOUT_URL">退出</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="要去哪玩鸭">
+                        <span class="input-group-addon"><button><span
+                                class="glyphicon glyphicon-search"></span></button></span>
+                    </div>
+                </form>
+
+            </div>
+        </nav>
+    </div>
     <div id="main" class="col-lg-9">
         <div class="scenic-rank panel">
             <div class="panel-title"><h2>热门景点<span></span>
@@ -35,7 +65,7 @@
 
                         </div>
                         <div class="media-body">
-                            <div class="col-lg-3">
+                            <div class="col-lg-6">
                                 <h4 class="media-heading">{{scenic.name}}</h4>
                                 <p class="scenic-location">[{{scenic.province+' '+scenic.city}}]</p>
                                 <div class="scenic-score">
@@ -49,7 +79,7 @@
                                         class="scenic-num">{{scenic.likeCount}}</span>人喜欢</span></span>&nbsp;&nbsp;<span><span
                                         class="scenic-num">{{scenic.evaluateCount}}</span>人点评</span></p>
                             </div>
-                            <div class="col-lg-6 col-lg-offset-3">
+                            <div class="col-lg-3 col-lg-offset-1">
                                 <ul>
                                     <li>
                                         <span class="pull-left single-score">美丽：</span><span class="scenic-num">{{scenic.beauty}}</span>
@@ -70,9 +100,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="scenic-desc">
-                        <p>{{cutString(scenic-desc,100)}}</p>
-                        <a v-bind:href="SCENIC_DETAIL_URL+'?scenicId='+scenic.id" class="scenic-show-detail">>>更多</a>
+                    <div class="scenic-description">
+                        <p>{{cutString(scenic.description,200)}}</p>
+                        <a v-bind:href="SCENIC_DETAIL_VIEW_URL+'?scenicId='+scenic.id" class="scenic-show-detail">>>更多</a>
                     </div>
                 </li>
 
@@ -82,7 +112,10 @@
             <el-pagination
                     background
                     layout="prev, pager, next"
-                    :totalSize="pageResult.recordTotal">
+                    :total="pageResult.recordTotal"
+                    :page-size="pageResult.pageSize"
+                    :current-page="pageResult.currentPage"
+                    @current-change="handleCurrentChange">
             </el-pagination>
         </div>
     </div>
@@ -90,25 +123,14 @@
         <div class="panel">
             <div class="panel-title"><h2>筛选条件</h2></div>
             <hr/>
-            <p>
-                省份：
-                <el-select
-                        v-model="searchCondition.value9"
-                        multiple
-                        filterable
-                        remote
-                        reserve-keyword
-                        placeholder="请输入关键词"
-                        :remote-method="remoteMethod"
-                        :loading="searchCondition.loading">
+                <el-select v-model="searchCondition.provinceId" placeholder="请选择">
                     <el-option
-                            v-for="item in searchCondition.options4"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
+                            v-for="province in provinces"
+                            :key="province.id"
+                            :label="province.name"
+                            :value="province.id">
                     </el-option>
                 </el-select>
-            </p>
         </div>
 
     </div>
@@ -127,16 +149,27 @@
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script src="../static/js/common.js"></script>
 <script>
+    debugger;
     var app = new Vue({
         el: '#root',
         data: {
-            searchCondition:{
-                options4: [],
-                value9: [],
-                list: [],
-                loading: false,
+            constant: {
+                INDEX_URL: INDEX_URL,
+                SCENIC_DATA_URL: SCENIC_PREVIEW_DATA_URL,
+                HOT_SCENIC_VIEW_URL: SCENIC_PREVIEW_VIEW_URL+"?type=0",
+                NEW_SCENIC_VIEW_URL: SCENIC_PREVIEW_VIEW_URL+"?type=1",
+                RECOMMEND_SCENIC_VIEW_URL: SCENIC_PREVIEW_VIEW_URL+"?type=2",
+                NEW_EVALUATE_VIEW_URL: NEW_EVALUATE_VIEW_URL,
+                HOME_URL: HOME_URL,
+                LOGOUT_URL: LOGOUT_URL
             },
-
+            searchCondition:{
+              provinceId:"",
+              cityId:"",
+              keyWord:"",
+            },
+            provinces:[],
+            user:{},
             // states: ["Alabama", "Alaska", "Arizona",
             //     "Arkansas", "California", "Colorado",
             //     "Connecticut", "Delaware", "Florida",
@@ -154,12 +187,27 @@
             //     "Utah", "Vermont", "Virginia",
             //     "Washington", "West Virginia", "Wisconsin",
             //     "Wyoming"],
-            pageResult: {}
+            pageResult: {},
+            evaluates:{}
         },
         created: function () {
-            //加载热门景点数据
-            t=this.getQueryVariable("type")
+
             _this=this
+            //加载用户数据
+            axios.get(USER_INFO_URL).then(function (response) {
+                if (response.status == 200) {
+                    if (response.data.code == 0) {
+                        console.log(response.data.data);
+                        _this.user = response.data.data;
+                    } else {
+                        alert(response.data.message);
+                    }
+                } else {
+                    alert("服务器错误");
+                }
+            })
+            //加载热门景点数据
+            t=getQueryVariable("type")
             axios.get(SCENIC_RANK_DATA_URL + "?type="+t).then(function (response) {
                 if (response.status == 200) {
                     if (response.data.code == 0) {
@@ -172,8 +220,28 @@
                     alert("服务器错误");
                 }
             })
+            //加载城市
+            axios.get()
         },
         methods: {
+            handleCurrentChange:function(val) {
+                console.log(val)
+                var currentPage=val;
+                typ=getQueryVariable("type")
+                _this=this
+                axios.get(SCENIC_RANK_DATA_URL + "?type="+typ+"&currentPage="+currentPage).then(function (response) {
+                    if (response.status == 200) {
+                        if (response.data.code == 0) {
+                            console.log(response.data.data);
+                            _this.pageResult = response.data.data;
+                        } else {
+                            alert(response.data.message);
+                        }
+                    } else {
+                        alert("服务器错误");
+                    }
+                })
+            },
             remoteMethod: function (query) {
                 // if (query !== '') {
                 //     this.loading = true;
@@ -192,17 +260,6 @@
                 //     this.options4 = [];
                 // }
             },
-            getQueryVariable: function (variable) {
-                var query = window.location.search.substring(1);
-                var vars = query.split("&");
-                for (var i = 0; i < vars.length; i++) {
-                    var pair = vars[i].split("=");
-                    if (pair[0] == variable) {
-                        return pair[1];
-                    }
-                }
-                return (false);
-            }
         }
 
     });

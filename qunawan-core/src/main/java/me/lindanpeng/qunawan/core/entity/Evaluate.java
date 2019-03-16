@@ -15,6 +15,7 @@ public class Evaluate {
     private Integer ease;
     private Integer romantic;
     private Integer humanity;
+    private String people;
     private Date createTime;
 
     public Long getId() {
@@ -115,6 +116,14 @@ public class Evaluate {
 
     public String getNickname() {
         return nickname;
+    }
+
+    public String getPeople() {
+        return people;
+    }
+
+    public void setPeople(String people) {
+        this.people = people;
     }
 
     public void setNickname(String nickname) {

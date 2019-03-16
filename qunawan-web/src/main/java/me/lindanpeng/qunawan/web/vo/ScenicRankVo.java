@@ -4,8 +4,6 @@ import me.lindanpeng.qunawan.core.entity.Scenic;
 import me.lindanpeng.qunawan.core.entity.ScenicIntro;
 import me.lindanpeng.qunawan.core.util.DateUtils;
 
-import java.util.Date;
-
 public class ScenicRankVo {
     private Long id;
     private String name;
@@ -26,7 +24,7 @@ public class ScenicRankVo {
     private Long evaluateCount;
     private Long likeCount;
     private String createTime;
-    private String desc;
+    private String description;
 
     public Long getId() {
         return id;
@@ -180,12 +178,12 @@ public class ScenicRankVo {
         this.createTime = createTime;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String description) {
+        this.description = description;
     }
     public static ScenicRankVo fromScenic(Scenic scenic, ScenicIntro scenicIntro){
         ScenicRankVo scenicRankVo = new ScenicRankVo();
@@ -207,7 +205,7 @@ public class ScenicRankVo {
         scenicRankVo.setLocation(scenic.getLocation());
         scenicRankVo.setName(scenic.getName());
         scenicRankVo.setThumbnail(scenic.getThumbnail());
-        scenicRankVo.setDesc(scenicIntro.getDescription().replaceAll("(<p>)|(</p>)|(\\s+)|<br/>|<strong>|</strong>", "").substring(0, 100));
+        scenicRankVo.setDescription(scenicIntro.getDescription().replaceAll("(<p>)|(</p>)|(\\s+)|<br/>|<strong>|</strong>", "").substring(0, 200));
         return scenicRankVo;
     }
 }

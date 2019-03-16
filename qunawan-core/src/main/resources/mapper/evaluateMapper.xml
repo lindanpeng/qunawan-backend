@@ -11,12 +11,31 @@
         order by create_time desc
         limit #{start},#{size}
     </select>
-    <select id="getNewEvaluates" resultType="me.lindanpeng.qunawan.core.entity.Evaluate">
-        select * from evaluate
+    <!--<select id="getNewEvaluates" resultType="me.lindanpeng.qunawan.core.entity.Evaluate">-->
+    <!--select * from evaluate-->
+    <!--order by create_time desc-->
+    <!--limit #{start},#{size}-->
+    <!--</select>-->
+    <select id="getEvaluates" resultType="me.lindanpeng.qunawan.core.entity.Evaluate">
+        select * from evaluate where 1=1
+        <if test="scenicId != null">
+            and scenic_id = #{scenicId}
+        </if>
         order by create_time desc
         limit #{start},#{size}
     </select>
+    <select id="userEvaluates" resultType="me.lindanpeng.qunawan.core.entity.Evaluate">
+        select * from evaluate where 1=1
+        and user_id = #{userId}
+        order by create_time desc
+    </select>
     <select id="countAll" resultType="int">
         select count(*) from evaluate
+    </select>
+    <select id="countByCondition" resultType="int">
+        select count(*) from evaluate where 1=1
+        <if test="scenicId != null">
+            and scenic_id=#{scenicId}
+        </if>
     </select>
 </mapper>

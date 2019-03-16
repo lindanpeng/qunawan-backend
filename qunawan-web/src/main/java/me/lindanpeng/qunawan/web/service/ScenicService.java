@@ -41,8 +41,8 @@ public class ScenicService extends AbstractService {
      PageHelper.PageResult<ScenicPreviewVo> pageResult=PageHelper.getPageResult(scenicPreviewVos,count,8);
      return pageResult;
  }
-    public PageHelper.PageResult<ScenicRankVo> listHotScenicRank(Integer provinceId, Integer cityId, int currentPage){
-        PageHelper.PageQuery pageQuery = PageHelper.getPageQuery(currentPage, PageHelper.DEFAULT_PAGE_SIZE);
+    public PageHelper.PageResult<ScenicRankVo> listHotScenicRank(Integer provinceId, Integer cityId, int currentPage,int pageSize){
+        PageHelper.PageQuery pageQuery = PageHelper.getPageQuery(currentPage, pageSize);
         List<Scenic>  scenics=scenicDao.listOrderByScore(provinceId,cityId,pageQuery.getStart(),pageQuery.getLimit());
         List<ScenicRankVo> scenicRankVos =new ArrayList<>(scenics.size());
         for (Scenic scenic:scenics){
@@ -53,8 +53,8 @@ public class ScenicService extends AbstractService {
         PageHelper.PageResult<ScenicRankVo> pageResult=PageHelper.getPageResult(scenicRankVos,count);
         return pageResult;
     }
-    public PageHelper.PageResult<ScenicRankVo> listNewScenicRank(Integer provinceId, Integer cityId, int currentPage){
-        PageHelper.PageQuery pageQuery = PageHelper.getPageQuery(currentPage, PageHelper.DEFAULT_PAGE_SIZE);
+    public PageHelper.PageResult<ScenicRankVo> listNewScenicRank(Integer provinceId, Integer cityId, int currentPage,int pageSize){
+        PageHelper.PageQuery pageQuery = PageHelper.getPageQuery(currentPage, pageSize);
         List<Scenic>  scenics=scenicDao.listOrderByCreateTime(provinceId,cityId,pageQuery.getStart(),pageQuery.getLimit());
         List<ScenicRankVo> scenicRankVos =new ArrayList<>(scenics.size());
         for (Scenic scenic:scenics){
