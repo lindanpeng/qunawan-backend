@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.io.Serializable;
-@Document(indexName = "EsScenic")
+@Document(indexName = "scenics",type = "scenic")
 public class EsScenic implements Serializable {
     @Id
     private Long id;
@@ -13,6 +13,16 @@ public class EsScenic implements Serializable {
     private String city;
     private String location;
     private String description;
+    private Float avgScore;
+
+    public Float getAvgScore() {
+        return avgScore;
+    }
+
+    public void setAvgScore(Float avgScore) {
+        this.avgScore = avgScore;
+    }
+
 
     public Long getId() {
         return id;

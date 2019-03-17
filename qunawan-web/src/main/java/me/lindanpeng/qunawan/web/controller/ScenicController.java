@@ -33,12 +33,12 @@ public class ScenicController {
         return ApiResponse.SUCCESS(pageResult);
 
     }
-    @RequestMapping(value = "/data/scenicRank",method = RequestMethod.GET)
-    public ApiResponse<PageHelper.PageResult<ScenicRankVo>> scenicRank(Integer provinceId, Integer cityId, Integer currentPage){
+    @RequestMapping(value = "/data/scenicRank")
+    public ApiResponse<PageHelper.PageResult<ScenicRankVo>> scenicRank(Integer provinceId, Integer cityId,Integer currentPage,String keyWord){
         if (currentPage == null || currentPage <= 0) {
             currentPage=1;
         }
-        PageHelper.PageResult<ScenicRankVo> pageResult = scenicService.listHotScenicRank(provinceId, cityId, currentPage,PageHelper.DEFAULT_PAGE_SIZE);
+        PageHelper.PageResult<ScenicRankVo> pageResult = scenicService.listHotScenicRank(keyWord,provinceId, cityId, currentPage,PageHelper.DEFAULT_PAGE_SIZE);
         return ApiResponse.SUCCESS(pageResult);
     }
     @RequestMapping(value = "/data/scenicDetail",method = RequestMethod.GET)

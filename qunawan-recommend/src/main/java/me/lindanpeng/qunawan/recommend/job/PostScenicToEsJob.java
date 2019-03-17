@@ -46,13 +46,16 @@ public class PostScenicToEsJob extends AbstractJob {
             fetchSize=scenics.size();
             start=start+fetchSize;
             for (Scenic scenic:scenics){
-                ScenicIntro scenicIntro=new ScenicIntro();
                 EsScenic esScenic=new EsScenic();
+                ScenicIntro scenicIntro=scenicIntroDao.findByScenicId(scenic    .getId());
                 esScenic.setId(scenic.getId());
+                esScenic.setAvgScore(scenic.getScore()/(float)scenic.getEvaluateCount());
+                esScenic.setName(scenic.getName());
                 esScenic.setCity(scenic.getCity());
                 esScenic.setProvince(scenic.getProvince());
                 esScenic.setLocation(scenic.getLocation());
                 esScenic.setDescription(scenicIntro.getDescription());
+               // logger.info(scenicIntro.getDescription());
                 esScenicRepository.save(esScenic);
             }
 

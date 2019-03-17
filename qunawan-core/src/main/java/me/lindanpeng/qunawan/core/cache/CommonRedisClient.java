@@ -9,7 +9,7 @@ public class CommonRedisClient {
     @Autowired
     private RedisTemplate<String,Object> redisTemplate;
     public void set(String key,Object o){
-        redisTemplate.opsForValue().get(key);
+        redisTemplate.opsForValue().set(key,o);
     }
     public Object get(String key){
         return redisTemplate.opsForValue().get(key);

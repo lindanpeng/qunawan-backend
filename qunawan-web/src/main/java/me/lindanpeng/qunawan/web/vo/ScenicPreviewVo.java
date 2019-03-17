@@ -11,7 +11,7 @@ public class ScenicPreviewVo {
     private Integer cityId;
     private String province;
     private String city;
-    private Long score;
+    private String score;
 
     public Long getId() {
         return id;
@@ -77,11 +77,11 @@ public class ScenicPreviewVo {
         this.city = city;
     }
 
-    public Long getScore() {
+    public String getScore() {
         return score;
     }
 
-    public void setScore(Long score) {
+    public void setScore(String score) {
         this.score = score;
     }
 
@@ -95,7 +95,7 @@ public class ScenicPreviewVo {
         scenicPreviewVo.setName(scenic.getName());
         scenicPreviewVo.setPrice(scenic.getPrice());
         scenicPreviewVo.setThumbnail(scenic.getThumbnail());
-        scenicPreviewVo.setScore(scenic.getScore()/(scenic.getEvaluateCount()==0?1:scenic.getEvaluateCount()));
+        scenicPreviewVo.setScore(String.format("%.1f",(float)scenic.getScore()/scenic.getEvaluateCount()));
         return scenicPreviewVo;
     }
 }

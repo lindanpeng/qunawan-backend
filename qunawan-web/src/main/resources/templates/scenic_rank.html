@@ -229,9 +229,13 @@
         methods: {
             handleCurrentChange:function(val) {
                 console.log(val)
-                var currentPage=val;
+                var postData=new Object();
+                postData.currentPage=val;
+                postData.provinceId=this.searchCondition.provinceId;
+                postData.cityId=this.searchCondition.cityId;
+                postData.keyWord=this.keyWord
                 var _this=this
-                axios.get(RANK_SCENIC_RANK_DATA_URL+"?currentPage="+currentPage).then(function (response) {
+                axios.post(RANK_SCENIC_RANK_DATA_URL,postData).then(function (response) {
                     if (response.status == 200) {
                         if (response.data.code == 0) {
                             console.log(response.data.data);

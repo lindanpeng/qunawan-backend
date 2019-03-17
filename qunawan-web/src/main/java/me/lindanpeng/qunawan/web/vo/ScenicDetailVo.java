@@ -19,12 +19,12 @@ public class ScenicDetailVo {
     private String city;
     private Short type;
     private String location;
-    private Long score;
-    private Long beauty;
-    private Long excitement;
-    private Long ease;
-    private Long romantic;
-    private Long humanity;
+    private String score;
+    private String beauty;
+    private String excitement;
+    private String ease;
+    private String romantic;
+    private String humanity;
     private Long evaluateCount;
     private Long likeCount;
     private String createTime;
@@ -111,51 +111,51 @@ public class ScenicDetailVo {
         this.location = location;
     }
 
-    public Long getScore() {
+    public String getScore() {
         return score;
     }
 
-    public void setScore(Long score) {
+    public void setScore(String score) {
         this.score = score;
     }
 
-    public Long getBeauty() {
+    public String getBeauty() {
         return beauty;
     }
 
-    public void setBeauty(Long beauty) {
+    public void setBeauty(String beauty) {
         this.beauty = beauty;
     }
 
-    public Long getExcitement() {
+    public String getExcitement() {
         return excitement;
     }
 
-    public void setExcitement(Long excitement) {
+    public void setExcitement(String excitement) {
         this.excitement = excitement;
     }
 
-    public Long getEase() {
+    public String getEase() {
         return ease;
     }
 
-    public void setEase(Long ease) {
+    public void setEase(String ease) {
         this.ease = ease;
     }
 
-    public Long getRomantic() {
+    public String getRomantic() {
         return romantic;
     }
 
-    public void setRomantic(Long romantic) {
+    public void setRomantic(String romantic) {
         this.romantic = romantic;
     }
 
-    public Long getHumanity() {
+    public String getHumanity() {
         return humanity;
     }
 
-    public void setHumanity(Long humanity) {
+    public void setHumanity(String humanity) {
         this.humanity = humanity;
     }
 
@@ -201,12 +201,12 @@ public class ScenicDetailVo {
     public static  ScenicDetailVo fromScenicAndScenicInfoAndScenicImgs(Scenic scenic, ScenicIntro scenicIntro, List<ScenicImg> scenicImgs){
         ScenicDetailVo scenicDetailVo=new ScenicDetailVo();
         scenicDetailVo.setId(scenic.getId());
-        scenicDetailVo.setBeauty(scenic.getBeauty()/(scenic.getEvaluateCount()==0?1:scenic.getEvaluateCount()));
-        scenicDetailVo.setHumanity(scenic.getHumanity()/(scenic.getEvaluateCount()==0?1:scenic.getEvaluateCount()));
-        scenicDetailVo.setExcitement(scenic.getExcitement()/(scenic.getEvaluateCount()==0?1:scenic.getEvaluateCount()));
-        scenicDetailVo.setRomantic(scenic.getRomantic()/(scenic.getEvaluateCount()==0?1:scenic.getEvaluateCount()));
-        scenicDetailVo.setEase(scenic.getEase()/(scenic.getEvaluateCount()==0?1:scenic.getEvaluateCount()));
-        scenicDetailVo.setScore(scenic.getScore()/(scenic.getEvaluateCount()==0?1:scenic.getEvaluateCount()));
+        scenicDetailVo.setBeauty(String.format("%.1f",(float)scenic.getBeauty()/scenic.getEvaluateCount()));
+        scenicDetailVo.setHumanity(String.format("%.1f",(float)scenic.getHumanity()/scenic.getEvaluateCount()));
+        scenicDetailVo.setExcitement(String.format("%.1f",(float)scenic.getExcitement()/scenic.getEvaluateCount()));
+        scenicDetailVo.setRomantic(String.format("%.1f",(float)scenic.getRomantic()/scenic.getEvaluateCount()));
+        scenicDetailVo.setEase(String.format("%.1f",(float)scenic.getEase()/scenic.getEvaluateCount()));
+        scenicDetailVo.setScore(String.format("%.1f",(float)scenic.getScore()/scenic.getEvaluateCount()));
         scenicDetailVo.setCity(scenic.getCity());
         scenicDetailVo.setPrice(scenic.getPrice());
         scenicDetailVo.setCityId(scenic.getCityId());
