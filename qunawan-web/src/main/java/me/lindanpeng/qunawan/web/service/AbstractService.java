@@ -18,4 +18,6 @@ public class AbstractService {
     ScenicImgDao scenicImgDao;
     @Autowired
     ViewHistoryDao viewHistoryDao;
+    @Autowired
+    RegionDao regionDao;
 }

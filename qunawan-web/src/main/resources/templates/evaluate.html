@@ -121,10 +121,10 @@
         data: {
             constant: {
                 INDEX_URL: INDEX_URL,
-                SCENIC_DATA_URL: SCENIC_PREVIEW_DATA_URL,
-                HOT_SCENIC_VIEW_URL: SCENIC_PREVIEW_VIEW_URL + "?type=0",
-                NEW_SCENIC_VIEW_URL: SCENIC_PREVIEW_VIEW_URL + "?type=1",
-                RECOMMEND_SCENIC_VIEW_URL: SCENIC_PREVIEW_VIEW_URL + "?type=2",
+                SCENIC_DATA_URL: RANK_SCENIC_PREVIEW_DATA_URL,
+                HOT_SCENIC_VIEW_URL: RANK_SCENIC_VIEW_URL + "?type=0",
+                NEW_SCENIC_VIEW_URL: RANK_SCENIC_VIEW_URL + "?type=1",
+                RECOMMEND_SCENIC_VIEW_URL: RANK_SCENIC_VIEW_URL + "?type=2",
                 NEW_EVALUATE_VIEW_URL: NEW_EVALUATE_VIEW_URL,
                 HOME_URL: HOME_URL,
                 LOGOUT_URL: LOGOUT_URL
@@ -149,7 +149,7 @@
             // })
 
             //加载最新评价
-            scenicId = getQueryVariable("scenicId")
+            var scenicId = getQueryVariable("scenicId")
             axios.get(NEW_EVALUATE_DATA_URL + "?scenicId=" + scenicId + "&currentPage=1").then(function (response) {
                 if (response.status == 200) {
                     if (response.data.code == 0) {

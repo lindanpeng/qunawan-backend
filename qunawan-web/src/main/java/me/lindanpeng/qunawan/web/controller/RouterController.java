@@ -15,19 +15,19 @@ public class RouterController {
     public String index(){
         return "index";
     }
-    @RequestMapping("/scenicRank/view")
-    public String toScenicRank(){
-        return "scenic_rank";
-    }
-    @RequestMapping("scenicDetail/view")
-    public String toScenicDetail(){
-        return "scenic_detail";
-    }
     @RequestMapping("/home")
     public String toHome(){
         return "person";
     }
-    @RequestMapping("/evaluates/view")
+    @RequestMapping("/view/scenicRank")
+    public String toScenicRank(){
+        return "scenic_rank";
+    }
+    @RequestMapping("view/scenicDetail")
+    public String toScenicDetail(){
+        return "scenic_detail";
+    }
+    @RequestMapping("/view/evaluates")
     public String toEvaluates(){
         return "evaluate";
     }

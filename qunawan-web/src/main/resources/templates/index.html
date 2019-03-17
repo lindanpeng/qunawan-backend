@@ -21,18 +21,17 @@
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="row">
                 <ul class="nav navbar-nav">
-                    <li class="navbar-link front-page-link"><a v-bind:href="constant.INDEX_URL">首页</a></li>
-                    <li class="navbar-link"><a v-bind:href="constant.HOT_SCENIC_VIEW_URL">最热</a></li>
-                    <li class="navbar-link"><a b-bind:href="constant.NEW_SCENIC_VIEW_URL">最新</a></li>
-                    <li class="navbar-link"><a v-bind:href="constant.RECOMMEND_SCENIC_VIEW_URL">猜你喜欢</a></li>
+                    <li class="navbar-link front-page-link"><a v-bind:href="INDEX_URL">首页</a></li>
+                    <li class="navbar-link"><a v-bind:href="RANK_SCENIC_VIEW_URL">景点排行</a></li>
+                    <li class="navbar-link"><a v-bind:href="RECOMMEND_SCENIC_VIEW_URL">猜你喜欢</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.nickname}}&nbsp;&nbsp;<img
                                 class="img-circle" v-bind:src="user.avatar" width="28px" height="28px"></a>
                         <ul class="dropdown-menu">
-                            <li><a v-bind:href="constant.HOME_URL">个人中心</a></li>
-                            <li><a v-bind:href="constant.LOGOUT_URL">退出</a></li>
+                            <li><a v-bind:href="HOME_URL">个人中心</a></li>
+                            <li><a v-bind:href="LOGOUT_URL">退出</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -50,7 +49,7 @@
     <div id="content" class="col-lg-12">
         <div id="main" class="col-lg-9">
             <div id="scenic-hot" class="panel">
-                <div class="panel-title"><h2>热门景点<span><a class="panel-title-showall pull-right" v-bind:href="constant.HOT_SCENIC_VIEW_URL">>>查看全部&nbsp;&nbsp;</a></span>
+                <div class="panel-title"><h2>热门景点<span><a class="panel-title-showall pull-right" v-bind:href="RANK_SCENIC_VIEW_URL">>>查看全部&nbsp;&nbsp;</a></span>
                 </h2></div>
                 <hr/>
                 <div class="scenic-show-content">
@@ -80,7 +79,7 @@
             </div>
             <div id="scenic-new" class="panel">
                 <div class="panel-title"><h2>最新景点<span><a class="panel-title-showall pull-right"
-                                                          :href="constant.NEW_SCENIC_VIEW_URL">>>查看全部&nbsp;&nbsp;</a></span>
+                                                          :href="RANK_SCENIC_VIEW_URL">>>查看全部&nbsp;&nbsp;</a></span>
                 </h2></div>
                 <hr/>
                 <div class="scenic-show-content">
@@ -106,7 +105,7 @@
             </div>
             <div id="senic-evaluate" class="panel">
                 <div class="panel-title"><h2>最新评价<span><a class="panel-title-showall pull-right"
-                                                          v-bind:href="constant.NEW_EVALUATE_VIEW_URL">>>查看全部&nbsp;&nbsp;</a></span>
+                                                          v-bind:href="NEW_EVALUATE_VIEW_URL">>>查看全部&nbsp;&nbsp;</a></span>
                 </h2></div>
                 <hr/>
                 <ul class="evaluate-list">
@@ -164,16 +163,6 @@
     var app = new Vue({
         el: "#root",
         data: {
-            constant: {
-                INDEX_URL: INDEX_URL,
-                SCENIC_DATA_URL: SCENIC_PREVIEW_DATA_URL,
-                HOT_SCENIC_VIEW_URL: SCENIC_PREVIEW_VIEW_URL+"?type=0",
-                NEW_SCENIC_VIEW_URL: SCENIC_PREVIEW_VIEW_URL+"?type=1",
-                RECOMMEND_SCENIC_VIEW_URL: SCENIC_PREVIEW_VIEW_URL+"?type=2",
-                NEW_EVALUATE_VIEW_URL: NEW_EVALUATE_VIEW_URL,
-                HOME_URL: HOME_URL,
-                LOGOUT_URL: LOGOUT_URL
-            },
             user: {},
             hotScenics: [],
             newScenics: [],
@@ -195,8 +184,8 @@
                     alert("服务器错误");
                 }
             })
-            //加载热门景点数据
-            axios.get(SCENIC_PREVIEW_DATA_URL + "?currentPage=1&type=0").then(function (response) {
+            //加载景点排行预览数据
+            axios.get(RANK_SCENIC_PREVIEW_DATA_URL).then(function (response) {
                 if (response.status == 200) {
                     if (response.data.code == 0) {
                         console.log(response.data.data.content);
@@ -208,19 +197,19 @@
                     alert("服务器错误");
                 }
             })
-            //加载最新景点数据
-            axios.get(SCENIC_PREVIEW_DATA_URL + "?currentPage=1&type=1").then(function (response) {
-                if (response.status == 200) {
-                    if (response.data.code == 0) {
-                        console.log(response.data.data.content);
-                        _this.newScenics = response.data.data.content;
-                    } else {
-                        alert(response.data.message);
-                    }
-                } else {
-                    alert("服务器错误");
-                }
-            })
+            // //加载最新景点数据
+            // axios.get(RANK_SCENIC_PREVIEW_DATA_URL + "?currentPage=1&type=1").then(function (response) {
+            //     if (response.status == 200) {
+            //         if (response.data.code == 0) {
+            //             console.log(response.data.data.content);
+            //             _this.newScenics = response.data.data.content;
+            //         } else {
+            //             alert(response.data.message);
+            //         }
+            //     } else {
+            //         alert("服务器错误");
+            //     }
+            // })
             //加载最新评价
             axios.get(NEW_EVALUATE_DATA_URL + "?currentPage=1&pageSize=8").then(function (response) {
                 if (response.status == 200) {

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.lindanpeng.qunawan.core.dao.RegionDao">
+
+    <select id="getRegionsByParentId" resultType="me.lindanpeng.qunawan.core.entity.Region">
+    select * from region where parent_id =#{parentId}
+  </select>
+</mapper>

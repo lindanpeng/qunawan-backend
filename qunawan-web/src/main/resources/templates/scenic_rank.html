@@ -24,18 +24,17 @@
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="row">
                 <ul class="nav navbar-nav">
-                    <li class="navbar-link front-page-link"><a v-bind:href="constant.INDEX_URL">首页</a></li>
-                    <li class="navbar-link"><a v-bind:href="constant.HOT_SCENIC_VIEW_URL">最热</a></li>
-                    <li class="navbar-link"><a b-bind:href="constant.NEW_SCENIC_VIEW_URL">最新</a></li>
-                    <li class="navbar-link"><a v-bind:href="constant.RECOMMEND_SCENIC_VIEW_URL">猜你喜欢</a></li>
+                    <li class="navbar-link front-page-link"><a v-bind:href="INDEX_URL">首页</a></li>
+                    <li class="navbar-link"><a v-bind:href="RANK_SCENIC_VIEW_URL">景点排行</a></li>
+                    <li class="navbar-link"><a v-bind:href="RECOMMEND_SCENIC_VIEW_URL">猜你喜欢</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.nickname}}&nbsp;&nbsp;<img
                                 class="img-circle" v-bind:src="user.avatar" width="28px" height="28px"></a>
                         <ul class="dropdown-menu">
-                            <li><a v-bind:href="constant.HOME_URL">个人中心</a></li>
-                            <li><a v-bind:href="constant.LOGOUT_URL">退出</a></li>
+                            <li><a v-bind:href="HOME_URL">个人中心</a></li>
+                            <li><a v-bind:href="LOGOUT_URL">退出</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -52,7 +51,7 @@
     </div>
     <div id="main" class="col-lg-9">
         <div class="scenic-rank panel">
-            <div class="panel-title"><h2>热门景点<span></span>
+            <div class="panel-title"><h2>景点排行<span></span>
             </h2></div>
             <hr/>
             <ul>
@@ -123,14 +122,34 @@
         <div class="panel">
             <div class="panel-title"><h2>筛选条件</h2></div>
             <hr/>
-                <el-select v-model="searchCondition.provinceId" placeholder="请选择">
+            <p><span>省&nbsp;&nbsp;&nbsp;份：</span>
+                <el-select  v-model="searchCondition.provinceId" placeholder="请选择" @change="loadCities">
                     <el-option
                             v-for="province in provinces"
                             :key="province.id"
                             :label="province.name"
-                            :value="province.id">
+                            :value="province.id"
+                            >
                     </el-option>
                 </el-select>
+                </p>
+            <p><span>城&nbsp;&nbsp;&nbsp;市：</span>
+                <el-select v-model="searchCondition.cityId" placeholder="请选择">
+                    <el-option
+                            v-for="city in cities"
+                            :key="city.id"
+                            :label="city.name"
+                            :value="city.id">
+                    </el-option>
+                </el-select>
+            </p>
+            <p> <span>关键词：</span>
+                <el-input v-model="searchCondition.keyWord" placeholder="请输入内容" style="width:190px"></el-input>
+            </p>
+            <p style="text-align: center;">
+            <el-button @click="doSearch" style="width: 90%;">进行筛选</el-button>
+            </p>
+
         </div>
 
     </div>
@@ -149,50 +168,24 @@
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script src="../static/js/common.js"></script>
 <script>
-    debugger;
     var app = new Vue({
         el: '#root',
         data: {
-            constant: {
-                INDEX_URL: INDEX_URL,
-                SCENIC_DATA_URL: SCENIC_PREVIEW_DATA_URL,
-                HOT_SCENIC_VIEW_URL: SCENIC_PREVIEW_VIEW_URL+"?type=0",
-                NEW_SCENIC_VIEW_URL: SCENIC_PREVIEW_VIEW_URL+"?type=1",
-                RECOMMEND_SCENIC_VIEW_URL: SCENIC_PREVIEW_VIEW_URL+"?type=2",
-                NEW_EVALUATE_VIEW_URL: NEW_EVALUATE_VIEW_URL,
-                HOME_URL: HOME_URL,
-                LOGOUT_URL: LOGOUT_URL
-            },
+
             searchCondition:{
               provinceId:"",
               cityId:"",
               keyWord:"",
             },
             provinces:[],
+            cities:[],
             user:{},
-            // states: ["Alabama", "Alaska", "Arizona",
-            //     "Arkansas", "California", "Colorado",
-            //     "Connecticut", "Delaware", "Florida",
-            //     "Georgia", "Hawaii", "Idaho", "Illinois",
-            //     "Indiana", "Iowa", "Kansas", "Kentucky",
-            //     "Louisiana", "Maine", "Maryland",
-            //     "Massachusetts", "Michigan", "Minnesota",
-            //     "Mississippi", "Missouri", "Montana",
-            //     "Nebraska", "Nevada", "New Hampshire",
-            //     "New Jersey", "New Mexico", "New York",
-            //     "North Carolina", "North Dakota", "Ohio",
-            //     "Oklahoma", "Oregon", "Pennsylvania",
-            //     "Rhode Island", "South Carolina",
-            //     "South Dakota", "Tennessee", "Texas",
-            //     "Utah", "Vermont", "Virginia",
-            //     "Washington", "West Virginia", "Wisconsin",
-            //     "Wyoming"],
             pageResult: {},
             evaluates:{}
         },
         created: function () {
 
-            _this=this
+            var _this=this
             //加载用户数据
             axios.get(USER_INFO_URL).then(function (response) {
                 if (response.status == 200) {
@@ -206,9 +199,8 @@
                     alert("服务器错误");
                 }
             })
-            //加载热门景点数据
-            t=getQueryVariable("type")
-            axios.get(SCENIC_RANK_DATA_URL + "?type="+t).then(function (response) {
+
+            axios.get(RANK_SCENIC_RANK_DATA_URL).then(function (response) {
                 if (response.status == 200) {
                     if (response.data.code == 0) {
                         console.log(response.data.data);
@@ -220,16 +212,26 @@
                     alert("服务器错误");
                 }
             })
-            //加载城市
-            axios.get()
+            //加载省份
+            axios.get(LOAD_PROVINCE_URL).then(function (response) {
+                if (response.status == 200) {
+                    if (response.data.code == 0) {
+                        console.log(response.data.data);
+                        _this.provinces = response.data.data;
+                    } else {
+                        alert(response.data.message);
+                    }
+                } else {
+                    alert("服务器错误");
+                }
+            })
         },
         methods: {
             handleCurrentChange:function(val) {
                 console.log(val)
                 var currentPage=val;
-                typ=getQueryVariable("type")
-                _this=this
-                axios.get(SCENIC_RANK_DATA_URL + "?type="+typ+"&currentPage="+currentPage).then(function (response) {
+                var _this=this
+                axios.get(RANK_SCENIC_RANK_DATA_URL+"?currentPage="+currentPage).then(function (response) {
                     if (response.status == 200) {
                         if (response.data.code == 0) {
                             console.log(response.data.data);
@@ -242,24 +244,42 @@
                     }
                 })
             },
-            remoteMethod: function (query) {
-                // if (query !== '') {
-                //     this.loading = true;
-                //     setTimeout(() => {
-                //         this.loading = false;
-                //     this.options4 = this.list.filter(item = > {
-                //         return item.label.toLowerCase()
-                //             .indexOf(query.toLowerCase()) > -1;
-                // })
-                //     ;
-                // },
-                //     200
-                // )
-                //     ;
-                // } else {
-                //     this.options4 = [];
-                // }
+            loadCities:function(provinceId){
+                var _this=this
+                //加载城市
+                axios.get(LOAD_CITY_URL+"?provinceId="+provinceId).then(function (response) {
+                    if (response.status == 200) {
+                        if (response.data.code == 0) {
+                            console.log(response.data.data);
+                            _this.cities = response.data.data;
+                        } else {
+                            alert(response.data.message);
+                        }
+                    } else {
+                        alert("服务器错误");
+                    }
+                })
             },
+            doSearch:function () {
+                var postData=new Object();
+                postData.provinceId=this.searchCondition.provinceId;
+                postData.cityId=this.searchCondition.cityId;
+                postData.keyWord=this.keyWord;
+                postData.type=this.searchCondition.type;
+                axios.post(SEARCH_SCENIC_URL,postData).then(function (response) {
+                    if (response.status == 200) {
+                        if (response.data.code == 0) {
+                            console.log(response.data.data);
+                            _this.cities = response.data.data;
+                        } else {
+                            alert(response.data.message);
+                        }
+                    } else {
+                        alert("服务器错误");
+                    }
+                })
+            }
+
         }
 
     });

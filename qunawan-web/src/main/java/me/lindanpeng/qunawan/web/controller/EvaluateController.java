@@ -21,7 +21,7 @@ public class EvaluateController {
     private static final Logger logger= LoggerFactory.getLogger(EvaluateController.class);
     @Autowired
     EvaluateService evaluateService;
-    @RequestMapping(value = "/evaluates",method = RequestMethod.GET)
+    @RequestMapping(value = "/data/evaluates",method = RequestMethod.GET)
     public ApiResponse<PageHelper.PageResult<EvaluateVo>> newEvaluates(Integer currentPage, Integer pageSize,Long scenicId){
         if (pageSize==null||pageSize>PageHelper.MAX_PAGE_SIZE)
             pageSize=PageHelper.DEFAULT_PAGE_SIZE;
@@ -30,7 +30,7 @@ public class EvaluateController {
         PageHelper.PageResult<EvaluateVo> data=evaluateService.getEvaluates(scenicId,currentPage,pageSize);
         return ApiResponse.SUCCESS(data);
     }
-    @RequestMapping(value = "/userEvaluates")
+    @RequestMapping(value = "/data/userEvaluates")
     public ApiResponse<List<EvaluateVo>> userEvaluates(Long userId){
         if (userId==null)
             return ApiResponse.ERROR(CodeMsg.PARAMETER_ERROR);

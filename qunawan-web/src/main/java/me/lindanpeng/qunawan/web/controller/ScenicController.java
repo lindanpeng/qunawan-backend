@@ -23,41 +23,25 @@ public class ScenicController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "/scenicPreview", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-    public ApiResponse<PageHelper.PageResult<ScenicPreviewVo>> scenicPreview(Integer type, Integer provinceId, Integer cityId, Integer currentPage) {
+    @RequestMapping(value = "/data/scenicPreview", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public ApiResponse<PageHelper.PageResult<ScenicPreviewVo>> scenicPreview(Integer provinceId, Integer cityId, Integer currentPage) {
 
         if (currentPage == null || currentPage <= 0) {
             currentPage=1;
         }
-        PageHelper.PageResult<ScenicPreviewVo> pageResult;
-        if (type == CommonConstant.HOT_SCENIC_RANK_TYPE)
-            pageResult = scenicService.listHotScenicPreview(provinceId, cityId, currentPage);
-        else if (type == CommonConstant.NEW_SCENIC_RANK_TYPE)
-            pageResult = scenicService.listNewScenicPreview(provinceId, cityId, currentPage);
-        else{
-            logger.info("unexpected type");
-            return ApiResponse.ERROR(CodeMsg.PARAMETER_ERROR);
-        }
+        PageHelper.PageResult<ScenicPreviewVo> pageResult = scenicService.listHotScenicPreview(provinceId, cityId, currentPage);
         return ApiResponse.SUCCESS(pageResult);
 
     }
-    @RequestMapping(value = "scenicRank",method = RequestMethod.GET)
-    public ApiResponse<PageHelper.PageResult<ScenicRankVo>> scenicRank(Integer type, Integer provinceId, Integer cityId, Integer currentPage){
+    @RequestMapping(value = "/data/scenicRank",method = RequestMethod.GET)
+    public ApiResponse<PageHelper.PageResult<ScenicRankVo>> scenicRank(Integer provinceId, Integer cityId, Integer currentPage){
         if (currentPage == null || currentPage <= 0) {
             currentPage=1;
         }
-        PageHelper.PageResult<ScenicRankVo> pageResult;
-        if (type == CommonConstant.HOT_SCENIC_RANK_TYPE)
-            pageResult = scenicService.listHotScenicRank(provinceId, cityId, currentPage,PageHelper.DEFAULT_PAGE_SIZE);
-        else if (type == CommonConstant.NEW_SCENIC_RANK_TYPE)
-            pageResult = scenicService.listNewScenicRank(provinceId, cityId, currentPage,PageHelper.DEFAULT_PAGE_SIZE);
-        else{
-            logger.info("unexpected type");
-            return ApiResponse.ERROR(CodeMsg.PARAMETER_ERROR);
-        }
+        PageHelper.PageResult<ScenicRankVo> pageResult = scenicService.listHotScenicRank(provinceId, cityId, currentPage,PageHelper.DEFAULT_PAGE_SIZE);
         return ApiResponse.SUCCESS(pageResult);
     }
-    @RequestMapping(value = "scenicDetail",method = RequestMethod.GET)
+    @RequestMapping(value = "/data/scenicDetail",method = RequestMethod.GET)
     public ApiResponse<ScenicDetailVo> scenicDetail(Long scenicId){
         if (scenicId==null){
             logger.info("wrong scenicId");
