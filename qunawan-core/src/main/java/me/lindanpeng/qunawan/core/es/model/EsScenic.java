@@ -9,6 +9,8 @@ public class EsScenic implements Serializable {
     @Id
     private Long id;
     private String name;
+    private Integer provinceId;
+    private Integer cityId;
     private String province;
     private String city;
     private String location;
@@ -70,5 +72,21 @@ public class EsScenic implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getProvinceId() {
+        return provinceId;
+    }
+
+    public void setProvinceId(Integer provinceId) {
+        this.provinceId = provinceId;
+    }
+
+    public Integer getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(Integer cityId) {
+        this.cityId = cityId;
     }
 }

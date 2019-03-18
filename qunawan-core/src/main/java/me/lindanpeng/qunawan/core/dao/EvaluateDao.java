@@ -15,4 +15,5 @@ public interface EvaluateDao {
     int countAll();
     int countByCondition(@Param("scenicId") Long scenicId);
     List<Evaluate> userEvaluates(Long userId);
+    List<Evaluate> getALl();
 }

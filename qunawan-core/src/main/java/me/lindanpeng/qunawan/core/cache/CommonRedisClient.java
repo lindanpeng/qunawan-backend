@@ -14,4 +14,5 @@ public class CommonRedisClient {
     public Object get(String key){
         return redisTemplate.opsForValue().get(key);
     }
+    public void del(String key){ redisTemplate.delete(key);}
 }

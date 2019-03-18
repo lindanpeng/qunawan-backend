@@ -3,9 +3,10 @@ package me.lindanpeng.qunawan.core.util;
 import java.util.List;
 
 public class PageHelper {
-    public static final int DEFAULT_PAGE_SIZE=10;
-    public static final int MAX_PAGE_SIZE=50;
-    public static class PageResult<T>{
+    public static final int DEFAULT_PAGE_SIZE = 10;
+    public static final int MAX_PAGE_SIZE = 50;
+
+    public static class PageResult<T> {
         private int currentPage;
         private int pageSize;
         private int pageTotal;
@@ -65,31 +66,32 @@ public class PageHelper {
             this.lastPage = lastPage;
         }
 
-       public int getPageTotal() {
-           return pageTotal;
-       }
+        public int getPageTotal() {
+            return pageTotal;
+        }
 
-       public void setPageTotal(int pageTotal) {
-           this.pageTotal = pageTotal;
-       }
+        public void setPageTotal(int pageTotal) {
+            this.pageTotal = pageTotal;
+        }
 
-       public int getRecordTotal() {
-           return recordTotal;
-       }
+        public int getRecordTotal() {
+            return recordTotal;
+        }
 
-       public void setRecordTotal(int recordTotal) {
-           this.recordTotal = recordTotal;
-       }
+        public void setRecordTotal(int recordTotal) {
+            this.recordTotal = recordTotal;
+        }
 
-       public List<T> getContent() {
-           return content;
-       }
+        public List<T> getContent() {
+            return content;
+        }
 
-       public void setContent(List<T> content) {
-           this.content = content;
-       }
-   }
-   public static class PageQuery{
+        public void setContent(List<T> content) {
+            this.content = content;
+        }
+    }
+
+    public static class PageQuery {
         private int start;
         private int limit;
 
@@ -109,32 +111,41 @@ public class PageHelper {
             this.limit = limit;
         }
     }
-    public static <T> PageResult<T> getPageResult(List<T> list,int count){
-       return getPageResult(list,count,DEFAULT_PAGE_SIZE);
+
+    public static <T> PageResult<T> getPageResult(List<T> list, int count,int currentPage) {
+        return getPageResult(list, count, currentPage,DEFAULT_PAGE_SIZE);
     }
 
-    public static <T> PageResult<T> getPageResult(List<T> list,int count,int pageSize){
-        PageResult<T> pageResult=new PageResult<>();
-        pageResult.recordTotal=count;
-        pageResult.pageSize=pageSize;
-        pageResult.pageTotal=pageResult.recordTotal%pageResult.pageSize>0?pageResult.recordTotal/pageResult.pageSize+1:pageResult.recordTotal/pageResult.pageSize;
-        pageResult.lastPage=pageResult.pageTotal;
-        if (pageResult.currentPage>pageResult.fistPage){
-            pageResult.prevPage=pageResult.currentPage-1;
-        }else{
-            pageResult.prevPage=pageResult.fistPage;
+    public static <T> PageResult<T> getPageResult(List<T> list, int count, int currentPage, int pageSize) {
+        PageResult<T> pageResult = new PageResult<>();
+        pageResult.recordTotal = count;
+        pageResult.pageSize = pageSize;
+        pageResult.pageTotal = pageResult.recordTotal % pageResult.pageSize > 0 ? pageResult.recordTotal / pageResult.pageSize + 1 : pageResult.recordTotal / pageResult.pageSize;
+        pageResult.lastPage = pageResult.pageTotal;
+        if (currentPage > pageResult.pageTotal)
+            pageResult.currentPage = pageResult.pageTotal;
+        else if (currentPage <= 0)
+            pageResult.currentPage = 1;
+        else
+            pageResult.currentPage=currentPage;
+        if (pageResult.currentPage > pageResult.fistPage) {
+            pageResult.prevPage = pageResult.currentPage - 1;
+        } else {
+            pageResult.prevPage = pageResult.fistPage;
         }
-        if (pageResult.currentPage<pageResult.lastPage){
-            pageResult.nextPage=pageResult.currentPage+1;
-        }else{
-            pageResult.nextPage=pageResult.lastPage;
+        if (pageResult.currentPage < pageResult.lastPage) {
+            pageResult.nextPage = pageResult.currentPage + 1;
+        } else {
+            pageResult.nextPage = pageResult.lastPage;
         }
+
         pageResult.setContent(list);
         return pageResult;
     }
-    public static PageQuery getPageQuery(int currentPage,int pageSize){
-        PageQuery pageQuery=new PageQuery();
-        pageQuery.setStart(currentPage>0?(currentPage-1)*pageSize:0);
+
+    public static PageQuery getPageQuery(int currentPage, int pageSize) {
+        PageQuery pageQuery = new PageQuery();
+        pageQuery.setStart(currentPage > 0 ? (currentPage - 1) * pageSize : 0);
         pageQuery.setLimit(pageSize);
         return pageQuery;
     }

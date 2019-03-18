@@ -205,7 +205,8 @@ public class ScenicRankVo {
         scenicRankVo.setLocation(scenic.getLocation());
         scenicRankVo.setName(scenic.getName());
         scenicRankVo.setThumbnail(scenic.getThumbnail());
-        scenicRankVo.setDescription(scenicIntro.getDescription().replaceAll("(<p>)|(</p>)|(\\s+)|<br/>|<strong>|</strong>", "").substring(0, 200));
+        String temp=scenicIntro.getDescription().replaceAll("(<p>)|(</p>)|(\\s+)|(<br/>)|(<strong>)|(</strong>)", "");
+        scenicRankVo.setDescription(temp.substring(0, temp.length()>200?200:temp.length()));
         return scenicRankVo;
     }
 }

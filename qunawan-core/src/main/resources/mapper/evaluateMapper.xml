@@ -38,4 +38,7 @@
             and scenic_id=#{scenicId}
         </if>
     </select>
+    <select id="getAll" resultType="me.lindanpeng.qunawan.core.entity.Evaluate">
+        select user_id,scenic_id,score from evaluate where use_id is not null;
+    </select>
 </mapper>

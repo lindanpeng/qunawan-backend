@@ -123,7 +123,7 @@
             <div class="panel-title"><h2>筛选条件</h2></div>
             <hr/>
             <p><span>省&nbsp;&nbsp;&nbsp;份：</span>
-                <el-select  v-model="searchCondition.provinceId" placeholder="请选择" @change="loadCities">
+                <el-select  v-model="searchCondition.provinceId" clearable placeholder="请选择" @clear="clearProvince" @change="loadCities" >
                     <el-option
                             v-for="province in provinces"
                             :key="province.id"
@@ -134,7 +134,7 @@
                 </el-select>
                 </p>
             <p><span>城&nbsp;&nbsp;&nbsp;市：</span>
-                <el-select v-model="searchCondition.cityId" placeholder="请选择">
+                <el-select v-model="searchCondition.cityId" clearable placeholder="请选择">
                     <el-option
                             v-for="city in cities"
                             :key="city.id"
@@ -173,8 +173,8 @@
         data: {
 
             searchCondition:{
-              provinceId:"",
-              cityId:"",
+              provinceId:undefined,
+              cityId:undefined,
               keyWord:"",
             },
             provinces:[],
@@ -200,7 +200,7 @@
                 }
             })
 
-            axios.get(RANK_SCENIC_RANK_DATA_URL).then(function (response) {
+            axios.post(RANK_SCENIC_RANK_DATA_URL).then(function (response) {
                 if (response.status == 200) {
                     if (response.data.code == 0) {
                         console.log(response.data.data);
@@ -233,7 +233,7 @@
                 postData.currentPage=val;
                 postData.provinceId=this.searchCondition.provinceId;
                 postData.cityId=this.searchCondition.cityId;
-                postData.keyWord=this.keyWord
+                postData.keyWord=this.searchCondition.keyWord;
                 var _this=this
                 axios.post(RANK_SCENIC_RANK_DATA_URL,postData).then(function (response) {
                     if (response.status == 200) {
@@ -248,8 +248,16 @@
                     }
                 })
             },
+            clearProvince:function(){
+                console.log("clear Province")
+                this.searchCondition.provinceId=undefined;
+            },
             loadCities:function(provinceId){
+                console.log(provinceId)
+                if (provinceId==undefined||provinceId=="")
+                    return;
                 var _this=this
+                _this.searchCondition.cityId=undefined;
                 //加载城市
                 axios.get(LOAD_CITY_URL+"?provinceId="+provinceId).then(function (response) {
                     if (response.status == 200) {
@@ -265,16 +273,18 @@
                 })
             },
             doSearch:function () {
+                var _this=this;
                 var postData=new Object();
                 postData.provinceId=this.searchCondition.provinceId;
                 postData.cityId=this.searchCondition.cityId;
-                postData.keyWord=this.keyWord;
-                postData.type=this.searchCondition.type;
-                axios.post(SEARCH_SCENIC_URL,postData).then(function (response) {
+                postData.keyWord=this.searchCondition.keyWord;
+                console.log(postData.keyWord);
+                axios.post(RANK_SCENIC_RANK_DATA_URL,postData).then(function (response) {
                     if (response.status == 200) {
                         if (response.data.code == 0) {
                             console.log(response.data.data);
-                            _this.cities = response.data.data;
+                            _this.pageResult = response.data.data;
+
                         } else {
                             alert(response.data.message);
                         }

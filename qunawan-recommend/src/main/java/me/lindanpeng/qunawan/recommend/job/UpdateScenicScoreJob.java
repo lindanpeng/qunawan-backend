@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,7 +24,8 @@ import java.util.Map;
  */
 @Component
 public class UpdateScenicScoreJob extends AbstractJob {
-    private final static Logger logger = LoggerFactory.getLogger(AbstractJob.class);
+
+    private final static Logger logger = LoggerFactory.getLogger(UpdateScenicScoreJob.class);
     @Autowired
     ScenicDao scenicDao;
     @Autowired
@@ -32,9 +34,8 @@ public class UpdateScenicScoreJob extends AbstractJob {
     CommonRedisClient commonRedisClient;
     private final String CACHE_KEY = "LastUpdateScenicScoreTime";
     private final int LIMIT_SIZE = 1000;
-
     //增量更新景点评分
-    @Scheduled(fixedDelay = 60 * 1000)
+   // @Scheduled(fixedDelay = 60 * 1000)
     public void updateScenicScoreIncrementally() throws ParseException {
         logger.info("[updateScenicScoreJob] start...");
         Date now = new Date();
