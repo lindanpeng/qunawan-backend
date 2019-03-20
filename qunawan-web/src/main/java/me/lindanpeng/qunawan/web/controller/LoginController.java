@@ -21,6 +21,7 @@ import org.thymeleaf.util.StringUtils;
 import javax.servlet.http.HttpSession;
 
 @RestController
+@RequestMapping("/api")
 public class LoginController {
     private final Logger logger = LoggerFactory.getLogger(LoginController.class);
     @Autowired

@@ -11,15 +11,16 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class RegionController {
     @Autowired
     RegionService regionService;
-    @RequestMapping("/data/loadProvinces")
+    @RequestMapping("/loadProvinces")
     public ApiResponse loadProvinces(){
         List<Region> regions=regionService.loadAllProvinces();
         return ApiResponse.SUCCESS(regions);
     }
-    @RequestMapping("data/loadCitiesByProvinceId")
+    @RequestMapping("/loadCitiesByProvinceId")
     public ApiResponse loadCitiesByProvinceId(Integer provinceId){
         if (provinceId==null)
             return ApiResponse.ERROR(CodeMsg.PARAMETER_ERROR);

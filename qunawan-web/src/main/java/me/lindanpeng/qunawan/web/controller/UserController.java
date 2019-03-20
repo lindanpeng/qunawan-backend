@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpSession;
 
 @RestController
+@RequestMapping("/api")
 public class UserController {
     Logger logger= LoggerFactory.getLogger(UserController.class);
     @Autowired

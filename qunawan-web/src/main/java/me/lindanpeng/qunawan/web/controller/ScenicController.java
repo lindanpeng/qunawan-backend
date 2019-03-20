@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/api")
 public class ScenicController {
     private static final Logger logger = LoggerFactory.getLogger(ScenicController.class);
     @Autowired
@@ -27,7 +28,7 @@ public class ScenicController {
     UserService userService;
     @Autowired
     SessionService sessionService;
-    @RequestMapping(value = "/data/scenicPreview", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/scenicPreview", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ApiResponse<PageHelper.PageResult<ScenicPreviewVo>> scenicRankPreview(Integer provinceId, Integer cityId, Integer currentPage) {
 
         if (currentPage == null || currentPage <= 0) {
@@ -37,7 +38,7 @@ public class ScenicController {
         return ApiResponse.SUCCESS(pageResult);
 
     }
-    @RequestMapping(value = "/data/scenicRank")
+    @RequestMapping(value = "/scenicRank")
     public ApiResponse<PageHelper.PageResult<ScenicRankVo>> scenicRank(@RequestBody(required = false) Map<String,Object> params){
         if (params==null)
             params=new HashMap<>();
@@ -51,7 +52,7 @@ public class ScenicController {
         PageHelper.PageResult<ScenicRankVo> pageResult = scenicService.listHotScenicRank(keyWord,provinceId, cityId, currentPage,PageHelper.DEFAULT_PAGE_SIZE);
         return ApiResponse.SUCCESS(pageResult);
     }
-    @RequestMapping(value = "/data/scenicDetail",method = RequestMethod.GET)
+    @RequestMapping(value = "/scenicDetail",method = RequestMethod.GET)
     public ApiResponse<ScenicDetailVo> scenicDetail(Long scenicId){
         if (scenicId==null){
             logger.info("wrong scenicId");
@@ -60,7 +61,7 @@ public class ScenicController {
         ScenicDetailVo scenicDetailVo=scenicService.getScenicDetail(scenicId);
         return ApiResponse.SUCCESS(scenicDetailVo);
     }
-    @RequestMapping(value = "/data/recommendScenic")
+    @RequestMapping(value = "/recommendScenic")
     public ApiResponse<PageHelper.PageResult<ScenicRankVo>> scenicRecommend(HttpSession session, @RequestBody(required = false) Map<String, Object> params){
         if (params==null)
             params=new HashMap<>();

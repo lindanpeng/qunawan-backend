@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/api")
 public class ViewHistoryController {
     private static final Logger logger= LoggerFactory.getLogger(ViewHistoryController.class);
     @Autowired
