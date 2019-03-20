@@ -1,6 +1,7 @@
 package me.lindanpeng.qunawan.web.service;
 
 import com.alibaba.druid.util.StringUtils;
+import me.lindanpeng.qunawan.core.cache.CommonRedisClient;
 import me.lindanpeng.qunawan.core.dao.ScenicDao;
 import me.lindanpeng.qunawan.core.entity.Scenic;
 import me.lindanpeng.qunawan.core.entity.ScenicImg;
@@ -48,6 +49,8 @@ public class ScenicService extends AbstractService {
     private final static Logger logger= LoggerFactory.getLogger(ScenicService.class);
     @Autowired
     EsScenicRepository esScenicRepository;
+    @Autowired
+    CommonRedisClient commonRedisClient;
 
     public PageHelper.PageResult<ScenicPreviewVo> listHotScenicPreview(Integer provinceId, Integer cityId, int currentPage,int pageSize) {
         PageHelper.PageQuery pageQuery = PageHelper.getPageQuery(currentPage, pageSize);
@@ -109,5 +112,19 @@ public class ScenicService extends AbstractService {
         List<ScenicImg> scenicImgs = scenicImgDao.findByScenicId(scenicId);
         ScenicDetailVo scenicDetailVo = ScenicDetailVo.fromScenicAndScenicInfoAndScenicImgs(scenic, scenicIntro, scenicImgs);
         return scenicDetailVo;
+    }
+    public PageHelper.PageResult<ScenicRankVo> getRecommendScenics(long userId,int currentPage,int pageSize){
+        PageHelper.PageQuery pageQuery= PageHelper.getPageQuery(currentPage,pageSize);
+        List<Integer> scenicIds= (List<Integer>) commonRedisClient.range("SCENIC_RECOMMEND:"+userId,pageQuery.getStart(),pageQuery.getLimit());
+        List<ScenicRankVo> scenicRankVos=new ArrayList<>();
+        for (Integer scenicId:scenicIds){
+            Scenic scenic=scenicDao.findById(scenicId);
+            ScenicIntro scenicIntro=scenicIntroDao.findByScenicId(scenicId);
+            ScenicRankVo scenicRankVo=ScenicRankVo.fromScenic(scenic,scenicIntro);
+            scenicRankVos.add(scenicRankVo);
+        }
+        int count=(int) commonRedisClient.getSize("SCENIC_RECOMMEND:"+userId);
+        PageHelper.PageResult pageResult= PageHelper.getPageResult(scenicRankVos,count,currentPage);
+        return pageResult;
     }
 }

@@ -25,7 +25,7 @@ public class EvaluateService extends AbstractService{
         return res;
     }
     public List<EvaluateVo> userEvaluates(Long userId){
-        List<Evaluate> list=evaluateDao.userEvaluates(userId);
+        List<Evaluate> list=evaluateDao.getEvaluatesByUserId(userId);
         List<EvaluateVo> evaluateVos=new ArrayList<>(list.size());
         for (Evaluate evaluate:list){
             Scenic scenic=scenicDao.findById(evaluate.getScenicId());

@@ -31,7 +31,7 @@
                                 class="img-circle" v-bind:src="user.avatar" width="28px" height="28px"></a>
                         <ul class="dropdown-menu">
                             <li><a v-bind:href="HOME_URL">个人中心</a></li>
-                            <li><a v-bind:href="LOGOUT_URL">退出</a></li>
+                            <li><a href="#" @click="doLogout">退出</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -78,13 +78,13 @@
 
             </div>
             <div id="scenic-new" class="panel">
-                <div class="panel-title"><h2>最新景点<span><a class="panel-title-showall pull-right"
+                <div class="panel-title"><h2>猜你喜欢<span><a class="panel-title-showall pull-right"
                                                           :href="RANK_SCENIC_VIEW_URL">>>查看全部&nbsp;&nbsp;</a></span>
                 </h2></div>
                 <hr/>
                 <div class="scenic-show-content">
                     <ul>
-                        <li class="scenic-show-li pull-left col-lg-3" v-for="scenic in newScenics">
+                        <li class="scenic-show-li pull-left col-lg-3" v-for="scenic in recommendScenics">
 
                             <div class="scenic-thumbnail">
                                 <img v-bind:src="scenic.thumbnail" alt="scenic.name">
@@ -165,7 +165,7 @@
         data: {
             user: {},
             hotScenics: [],
-            newScenics: [],
+            recommendScenics: [],
             newEvaluates: []
         },
         created: function () {
@@ -197,19 +197,19 @@
                     alert("服务器错误");
                 }
             })
-            // //加载最新景点数据
-            // axios.get(RANK_SCENIC_PREVIEW_DATA_URL + "?currentPage=1&type=1").then(function (response) {
-            //     if (response.status == 200) {
-            //         if (response.data.code == 0) {
-            //             console.log(response.data.data.content);
-            //             _this.newScenics = response.data.data.content;
-            //         } else {
-            //             alert(response.data.message);
-            //         }
-            //     } else {
-            //         alert("服务器错误");
-            //     }
-            // })
+            //加载最新景点数据
+            axios.get(RECOMMEND_SCENIC_DATA_URL + "?currentPage=1").then(function (response) {
+                if (response.status == 200) {
+                    if (response.data.code == 0) {
+                        console.log(response.data.data.content);
+                        _this.recommendScenics = response.data.data.content;
+                    } else {
+                        alert(response.data.message);
+                    }
+                } else {
+                    alert("服务器错误");
+                }
+            })
             //加载最新评价
             axios.get(NEW_EVALUATE_DATA_URL + "?currentPage=1&pageSize=8").then(function (response) {
                 if (response.status == 200) {
@@ -223,6 +223,22 @@
                     alert("服务器错误");
                 }
             })
+        },
+        methods: {
+            doLogout: function () {
+                axios.get(LOGOUT_URL).then(function (response) {
+                    if (response.status == 200) {
+                        if (response.data.code == 0) {
+                            console.log(response.data.data.content);
+                            window.location = LOGIN_URL;
+                        } else {
+                            alert(response.data.message);
+                        }
+                    } else {
+                        alert("服务器错误");
+                    }
+                })
+            }
         }
     });
 </script>

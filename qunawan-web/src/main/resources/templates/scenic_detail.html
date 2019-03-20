@@ -20,6 +20,35 @@
 </head>
 <body>
 <div id="root" class="container">
+    <div id="header">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="row">
+                <ul class="nav navbar-nav">
+                    <li class="navbar-link front-page-link"><a v-bind:href="INDEX_URL">首页</a></li>
+                    <li class="navbar-link"><a v-bind:href="RANK_SCENIC_VIEW_URL">景点排行</a></li>
+                    <li class="navbar-link"><a v-bind:href="RECOMMEND_SCENIC_VIEW_URL">猜你喜欢</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.nickname}}&nbsp;&nbsp;<img
+                                class="img-circle" v-bind:src="user.avatar" width="28px" height="28px"></a>
+                        <ul class="dropdown-menu">
+                            <li><a v-bind:href="HOME_URL">个人中心</a></li>
+                            <li><a v-bind:href="LOGOUT_URL">退出</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="要去哪玩鸭">
+                        <span class="input-group-addon"><button><span
+                                class="glyphicon glyphicon-search"></span></button></span>
+                    </div>
+                </form>
+
+            </div>
+        </nav>
+    </div>
     <div id="main" class="col-lg-12">
         <div id="scenic-detail" class="panel">
             <div class="panel-title"><h2>景点详情</h2></div>

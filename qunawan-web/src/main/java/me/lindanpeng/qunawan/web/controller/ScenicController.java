@@ -4,6 +4,7 @@ import me.lindanpeng.qunawan.core.util.PageHelper;
 import me.lindanpeng.qunawan.web.protocol.ApiResponse;
 import me.lindanpeng.qunawan.web.protocol.CodeMsg;
 import me.lindanpeng.qunawan.web.service.ScenicService;
+import me.lindanpeng.qunawan.web.service.SessionService;
 import me.lindanpeng.qunawan.web.service.UserService;
 import me.lindanpeng.qunawan.web.vo.ScenicDetailVo;
 import me.lindanpeng.qunawan.web.vo.ScenicPreviewVo;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +25,8 @@ public class ScenicController {
     ScenicService scenicService;
     @Autowired
     UserService userService;
-
+    @Autowired
+    SessionService sessionService;
     @RequestMapping(value = "/data/scenicPreview", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public ApiResponse<PageHelper.PageResult<ScenicPreviewVo>> scenicRankPreview(Integer provinceId, Integer cityId, Integer currentPage) {
 
@@ -57,10 +60,17 @@ public class ScenicController {
         ScenicDetailVo scenicDetailVo=scenicService.getScenicDetail(scenicId);
         return ApiResponse.SUCCESS(scenicDetailVo);
     }
-    @RequestMapping(value = "/data/scenicRecommend")
-    public ApiResponse<PageHelper.PageResult<ScenicRankVo>> scenicRecommend(@RequestBody(required = false) Map<String,Object> params){
-
-        return null;
+    @RequestMapping(value = "/data/recommendScenic")
+    public ApiResponse<PageHelper.PageResult<ScenicRankVo>> scenicRecommend(HttpSession session, @RequestBody(required = false) Map<String, Object> params){
+        if (params==null)
+            params=new HashMap<>();
+        Integer currentPage=(Integer) params.get("currentPage");
+        if (currentPage==null||currentPage<=0)
+            currentPage=1;
+        Long userId =sessionService.loadSessionData(session).getUserId();
+        logger.info("userId:{}",userId);
+        PageHelper.PageResult<ScenicRankVo> pageResult=scenicService.getRecommendScenics(userId,currentPage,PageHelper.DEFAULT_PAGE_SIZE);
+        return ApiResponse.SUCCESS(pageResult);
     }
 //    @RequestMapping(value = "/newScenics",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
 //    public ApiResponse<PageHelper.PageResult<ScenicPreviewVo>> newestScenics(Integer provinceId, Integer cityId, Integer currentPage, Integer pageSize){

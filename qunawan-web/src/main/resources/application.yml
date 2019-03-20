@@ -11,9 +11,3 @@ spring:
         suffix: .html
     mvc:
         static-path-pattern: /static/**
-    redis:
-        host: 47.107.49.21
-        port: 6379
-logging:
-    pattern:
-        console: '%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%t] %F %L - %m%n'

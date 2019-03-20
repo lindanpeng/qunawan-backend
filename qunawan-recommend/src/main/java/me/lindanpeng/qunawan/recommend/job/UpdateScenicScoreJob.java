@@ -5,6 +5,7 @@ import me.lindanpeng.qunawan.core.dao.EvaluateDao;
 import me.lindanpeng.qunawan.core.dao.ScenicDao;
 import me.lindanpeng.qunawan.core.entity.Evaluate;
 import me.lindanpeng.qunawan.core.entity.Scenic;
+import me.lindanpeng.qunawan.core.util.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,20 +36,21 @@ public class UpdateScenicScoreJob extends AbstractJob {
     private final String CACHE_KEY = "LastUpdateScenicScoreTime";
     private final int LIMIT_SIZE = 1000;
     //增量更新景点评分
-   // @Scheduled(fixedDelay = 60 * 1000)
+    //@Scheduled(fixedDelay = 60 * 1000)
     public void updateScenicScoreIncrementally() throws ParseException {
         logger.info("[updateScenicScoreJob] start...");
         Date now = new Date();
         Date startTime = (Date) commonRedisClient.get(CACHE_KEY);
         if (startTime == null)
             startTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("1970-01-01 00:00:00");
+        logger.info("[updateScenicScoreJob] startTime={}",startTime);
         int fetchSize=0;
         int start = 0;
 
         do {
             Map<Long, Map<String, Integer>> scoreMap = new HashMap<>();
             Map<Long, Long> countMap = new HashMap<>();
-            List<Evaluate> evaluates = evaluateDao.getNewEvaluatesInTime(startTime, now, start, LIMIT_SIZE);
+            List<Evaluate> evaluates = evaluateDao.getNewEvaluatesInTime(DateUtils.dateToDateTime(startTime),DateUtils.dateToDateTime(now), start, LIMIT_SIZE);
             fetchSize = evaluates.size();
             logger.info("[updateScenicScoreJob] start={},fetchSize={}",start,fetchSize);
             start = fetchSize + start;

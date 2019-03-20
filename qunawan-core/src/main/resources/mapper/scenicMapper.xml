@@ -65,7 +65,7 @@
             and cityId =#{cityId}
         </if>
     </select>
-    <select id="listInTime" resultType="me.lindanpeng.qunawan.core.entity.Scenic">
+    <select id="getScenicsInTime" resultType="me.lindanpeng.qunawan.core.entity.Scenic">
         select * from scenic where 1=1
         and create_time&gt;#{startTime}
         and create_time&lt;=#{endTime}

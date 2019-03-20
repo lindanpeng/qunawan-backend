@@ -10,10 +10,10 @@ import java.util.Date;
 import java.util.List;
 
 public interface EvaluateDao {
-    List<Evaluate> getNewEvaluatesInTime(Date startTime, Date endTime, int start, int size);
+    List<Evaluate> getNewEvaluatesInTime(String startTime, String endTime, int start, int size);
     List<Evaluate> getEvaluates(Long scenicId, int start, int size);
     int countAll();
     int countByCondition(@Param("scenicId") Long scenicId);
-    List<Evaluate> userEvaluates(Long userId);
-    List<Evaluate> getALl();
+    List<Evaluate> getEvaluatesByUserId(Long userId);
+    List<Evaluate> getAll();
 }

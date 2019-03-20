@@ -2,6 +2,7 @@ var DOMAIN="http://localhost:8081"
 var DO_LOGIN_URL=DOMAIN+"/doLogin"
 var INDEX_URL=DOMAIN+"/index"
 var HOME_URL=DOMAIN+"/home"
+var LOGIN_URL=DOMAIN+"/login"
 var LOGOUT_URL=DOMAIN+"/logout"
 var USER_INFO_URL=DOMAIN+"/userInfo"
 

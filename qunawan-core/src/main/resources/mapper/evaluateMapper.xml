@@ -11,11 +11,6 @@
         order by create_time desc
         limit #{start},#{size}
     </select>
-    <!--<select id="getNewEvaluates" resultType="me.lindanpeng.qunawan.core.entity.Evaluate">-->
-    <!--select * from evaluate-->
-    <!--order by create_time desc-->
-    <!--limit #{start},#{size}-->
-    <!--</select>-->
     <select id="getEvaluates" resultType="me.lindanpeng.qunawan.core.entity.Evaluate">
         select * from evaluate where 1=1
         <if test="scenicId != null">
@@ -24,7 +19,7 @@
         order by create_time desc
         limit #{start},#{size}
     </select>
-    <select id="userEvaluates" resultType="me.lindanpeng.qunawan.core.entity.Evaluate">
+    <select id="getEvaluatesByUserId" resultType="me.lindanpeng.qunawan.core.entity.Evaluate">
         select * from evaluate where 1=1
         and user_id = #{userId}
         order by create_time desc
@@ -39,6 +34,6 @@
         </if>
     </select>
     <select id="getAll" resultType="me.lindanpeng.qunawan.core.entity.Evaluate">
-        select user_id,scenic_id,score from evaluate where use_id is not null;
+        select * from evaluate where user_id is not null;
     </select>
 </mapper>

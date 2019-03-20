@@ -27,6 +27,10 @@ public class RouterController {
     public String toScenicDetail(){
         return "scenic_detail";
     }
+    @RequestMapping("view/recommendScenic")
+    public String toRecommendScenic(){
+        return "scenic_recommend";
+    }
     @RequestMapping("/view/evaluates")
     public String toEvaluates(){
         return "evaluate";
