@@ -202,6 +202,7 @@
         data: {
             scenicDetail:[],
             evaluates: [],
+            user:{},
             nearbyScenics: [
                 {
                     thumbnail:"https://bbswater-fd.zol-img.com.cn/t_s1200x5000/g5/M00/00/08/ChMkJlvHN7iIJ-4tAAQ0vpQTX9UAAsi5QIRy6kABDTW666.jpg",
@@ -271,6 +272,22 @@
                     console.log(res.status)
                 })
             },3*60*1000)
+        },
+        methods: {
+            doLogout: function () {
+                axios.get(LOGOUT_URL).then(function (response) {
+                    if (response.status == 200) {
+                        if (response.data.code == 0) {
+                            console.log(response.data.data.content);
+                            window.location = LOGIN_URL;
+                        } else {
+                            alert(response.data.message);
+                        }
+                    } else {
+                        alert("服务器错误");
+                    }
+                })
+            }
         }
     });
 </script>

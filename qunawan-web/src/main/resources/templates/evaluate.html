@@ -22,18 +22,17 @@
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="row">
                 <ul class="nav navbar-nav">
-                    <li class="navbar-link front-page-link"><a v-bind:href="constant.INDEX_URL">首页</a></li>
-                    <li class="navbar-link"><a v-bind:href="constant.HOT_SCENIC_VIEW_URL">最热</a></li>
-                    <li class="navbar-link"><a b-bind:href="constant.NEW_SCENIC_VIEW_URL">最新</a></li>
-                    <li class="navbar-link"><a v-bind:href="constant.RECOMMEND_SCENIC_VIEW_URL">猜你喜欢</a></li>
+                    <li class="navbar-link front-page-link"><a v-bind:href="INDEX_URL">首页</a></li>
+                    <li class="navbar-link"><a v-bind:href="RANK_SCENIC_VIEW_URL">景点排行</a></li>
+                    <li class="navbar-link"><a v-bind:href="RECOMMEND_SCENIC_VIEW_URL">猜你喜欢</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{user.nickname}}&nbsp;&nbsp;<img
                                 class="img-circle" v-bind:src="user.avatar" width="28px" height="28px"></a>
                         <ul class="dropdown-menu">
-                            <li><a v-bind:href="constant.HOME_URL">个人中心</a></li>
-                            <li><a v-bind:href="constant.LOGOUT_URL">退出</a></li>
+                            <li><a v-bind:href="HOME_URL">个人中心</a></li>
+                            <li><a href="#" @click="doLogout">退出</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -182,6 +181,21 @@
                     }
                 })
             },
+            doLogout: function () {
+                axios.get(LOGOUT_URL).then(function (response) {
+                    if (response.status == 200) {
+                        if (response.data.code == 0) {
+                            console.log(response.data.data.content);
+                            window.location = LOGIN_URL;
+                        } else {
+                            alert(response.data.message);
+                        }
+                    } else {
+                        alert("服务器错误");
+                    }
+                })
+            }
+        }
         }
 
     });

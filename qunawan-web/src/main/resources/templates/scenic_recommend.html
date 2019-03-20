@@ -34,7 +34,7 @@
                                 class="img-circle" v-bind:src="user.avatar" width="28px" height="28px"></a>
                         <ul class="dropdown-menu">
                             <li><a v-bind:href="HOME_URL">个人中心</a></li>
-                            <li><a v-bind:href="LOGOUT_URL">退出</a></li>
+                            <li><a href="#" @click="doLogout">退出</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -248,6 +248,21 @@
                     }
                 })
             },
+            doLogout: function () {
+                axios.get(LOGOUT_URL).then(function (response) {
+                    if (response.status == 200) {
+                        if (response.data.code == 0) {
+                            console.log(response.data.data.content);
+                            window.location = LOGIN_URL;
+                        } else {
+                            alert(response.data.message);
+                        }
+                    } else {
+                        alert("服务器错误");
+                    }
+                })
+            }
+        }
             // clearProvince:function(){
             //     console.log("clear Province")
             //     this.searchCondition.provinceId=undefined;
@@ -272,27 +287,27 @@
             //     //     }
             //     })
             // },
-            doSearch:function() {
-                var _this=this;
-                var postData=new Object();
-                postData.provinceId=this.searchCondition.provinceId;
-                postData.cityId=this.searchCondition.cityId;
-                postData.keyWord=this.searchCondition.keyWord;
-                console.log(postData.keyWord);
-                axios.post(RECOMMEND_SCENIC_DATA_URL,postData).then(function (response) {
-                    if (response.status == 200) {
-                        if (response.data.code == 0) {
-                            console.log(response.data.data);
-                            _this.pageResult = response.data.data;
-
-                        } else {
-                            alert(response.data.message);
-                        }
-                    } else {
-                        alert("服务器错误");
-                    }
-                })
-            }
+            // doSearch:function() {
+            //     var _this=this;
+            //     var postData=new Object();
+            //     postData.provinceId=this.searchCondition.provinceId;
+            //     postData.cityId=this.searchCondition.cityId;
+            //     postData.keyWord=this.searchCondition.keyWord;
+            //     console.log(postData.keyWord);
+            //     axios.post(RECOMMEND_SCENIC_DATA_URL,postData).then(function (response) {
+            //         if (response.status == 200) {
+            //             if (response.data.code == 0) {
+            //                 console.log(response.data.data);
+            //                 _this.pageResult = response.data.data;
+            //
+            //             } else {
+            //                 alert(response.data.message);
+            //             }
+            //         } else {
+            //             alert("服务器错误");
+            //         }
+            //     })
+            // }
 
         }
 

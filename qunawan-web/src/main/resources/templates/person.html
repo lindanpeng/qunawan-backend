@@ -32,7 +32,7 @@
                                 class="img-circle" v-bind:src="user.avatar" width="28px" height="28px"></a>
                         <ul class="dropdown-menu">
                             <li><a v-bind:href="HOME_URL">个人中心</a></li>
-                            <li><a v-bind:href="LOGOUT_URL">退出</a></li>
+                            <li><a href="#" @click="doLogout">退出</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -245,6 +245,22 @@
                 })
             })
 
+        },
+        methods: {
+            doLogout: function () {
+                axios.get(LOGOUT_URL).then(function (response) {
+                    if (response.status == 200) {
+                        if (response.data.code == 0) {
+                            console.log(response.data.data.content);
+                            window.location = LOGIN_URL;
+                        } else {
+                            alert(response.data.message);
+                        }
+                    } else {
+                        alert("服务器错误");
+                    }
+                })
+            }
         }
     })
 </script>
