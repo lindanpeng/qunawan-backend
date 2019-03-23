@@ -12,10 +12,10 @@
         <java.version>1.8</java.version>
     </properties>
     <modules>
-        <module>qunawan-web</module>
         <module>qunanwan-admin</module>
         <module>qunawan-recommend</module>
         <module>qunawan-core</module>
+        <module>qunawan-api</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -23,7 +23,7 @@
         <version>2.1.1.RELEASE</version>
     </parent>
 
-    <!-- Add typical dependencies for a web application -->
+    <!-- Add typical dependencies for a api application -->
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
