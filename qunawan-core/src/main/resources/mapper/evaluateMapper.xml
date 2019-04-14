@@ -36,4 +36,5 @@
     <select id="getAll" resultType="me.lindanpeng.qunawan.core.entity.Evaluate">
         select * from evaluate where user_id is not null;
     </select>
+
 </mapper>

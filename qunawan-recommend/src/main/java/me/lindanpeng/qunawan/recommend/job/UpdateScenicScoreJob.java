@@ -36,7 +36,7 @@ public class UpdateScenicScoreJob extends AbstractJob {
     private final String CACHE_KEY = "LastUpdateScenicScoreTime";
     private final int LIMIT_SIZE = 1000;
     //增量更新景点评分
-    //@Scheduled(fixedDelay = 60 * 1000)
+    @Scheduled(fixedDelay = 1000*60)
     public void updateScenicScoreIncrementally() throws ParseException {
         logger.info("[updateScenicScoreJob] start...");
         Date now = new Date();

@@ -8,5 +8,5 @@ public interface UserDao {
 
     User findById(Long id);
     User findByEmail(String email);
-
+    void add(User user);
 }

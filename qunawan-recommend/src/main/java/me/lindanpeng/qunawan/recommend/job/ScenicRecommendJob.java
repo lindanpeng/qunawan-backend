@@ -25,7 +25,7 @@ public class ScenicRecommendJob extends AbstractJob {
     @Autowired
     ScenicRecommender scenicRecommender;
     private final static String CACHE_KEY="SCENIC_RECOMMEND";
-     @Scheduled(fixedDelay = 1000 * 60 * 60 * 24)
+    @Scheduled(fixedDelay = 1000 * 60 *30)
     public void scenicRecommend()  {
         logger.info("[ScenicRecommendJob] start...");
         List<Evaluate> evaluates = evaluateDao.getAll();

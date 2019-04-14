@@ -9,4 +9,7 @@
     <select id="findByEmail" resultType="me.lindanpeng.qunawan.core.entity.User">
     select * from user where email = #{email}
   </select>
+    <insert id="add">
+        insert into user(email,password) values (#{email},#{password})
+    </insert>
 </mapper>

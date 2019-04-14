@@ -1,9 +1,16 @@
-package me.lindanpeng.qunawan.core.entity.dict;
+package me.lindanpeng.qunawan.core.constant;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserDict {
+public class UserConstant {
+    public static final String DEFAULT_AVATAR="http://sfsefw";
+    public static final String DEFAULT_NICKNAME="快给自己起个昵称吧";
+
+    public static final int GENDEAR_MAIE=0;
+    public static final int GENDEAR_FEMAIE=1;
+    public static final int GENDEAR_UNKNOWN=2;
+
     public static final Map<Integer,String> GENDER_MAP=new HashMap<>();
     public static final Map<Integer,String> IDENTITY_MAP=new HashMap<>();
     static {

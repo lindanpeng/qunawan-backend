@@ -1,7 +1,7 @@
 package me.lindanpeng.qunawan.api.vo;
 
 import me.lindanpeng.qunawan.core.entity.User;
-import me.lindanpeng.qunawan.core.entity.dict.UserDict;
+import me.lindanpeng.qunawan.core.constant.UserConstant;
 import me.lindanpeng.qunawan.core.util.DateUtils;
 
 public class UserInfoVo {
@@ -71,8 +71,8 @@ public class UserInfoVo {
         UserInfoVo userInfoVo=new UserInfoVo();
         userInfoVo.setNickname(user.getNickname());
         userInfoVo.setAvatar(user.getAvatar());
-        userInfoVo.setGender(UserDict.GENDER_MAP.get(user.getGender()));
-        userInfoVo.setIdentity(UserDict.IDENTITY_MAP.get(user.getIdentity()));
+        userInfoVo.setGender(UserConstant.GENDER_MAP.get(user.getGender()));
+        userInfoVo.setIdentity(UserConstant.IDENTITY_MAP.get(user.getIdentity()));
         userInfoVo.setBirthday(DateUtils.dateToDateTime(user.getBirthday()));
         userInfoVo.setUserId(user.getId());
         userInfoVo.setLocation(user.getProvince()+user.getCity());

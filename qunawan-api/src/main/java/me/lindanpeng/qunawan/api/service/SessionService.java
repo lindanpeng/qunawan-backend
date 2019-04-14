@@ -34,6 +34,7 @@ public class SessionService extends AbstractService {
         session.setAttribute(SESSION_KEY, this.wrapSessionData(user));
         return user;
     }
+
     public SessionData loadSessionData(HttpSession session){
         SessionData sessionData= (SessionData) session.getAttribute(SESSION_KEY);
         return sessionData;

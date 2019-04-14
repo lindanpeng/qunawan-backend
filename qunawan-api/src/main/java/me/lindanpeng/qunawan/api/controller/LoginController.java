@@ -1,5 +1,6 @@
 package me.lindanpeng.qunawan.api.controller;
 
+import me.lindanpeng.qunawan.api.dto.RegisterDto;
 import me.lindanpeng.qunawan.core.entity.User;
 import me.lindanpeng.qunawan.api.dto.DoLoginDto;
 import me.lindanpeng.qunawan.api.protocol.ApiResponse;
@@ -29,7 +30,6 @@ public class LoginController {
 
     @RequestMapping(value = "doLogin", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public ApiResponse<String> doLogin(@RequestBody DoLoginDto doLoginDto, HttpSession session) {
-        logger.info("requestBody:{}", doLoginDto);
         if (StringUtils.isEmpty(doLoginDto.getEmail()) || StringUtils.isEmpty(doLoginDto.getPassword())) {
             logger.warn("参数错误");
             return ApiResponse.ERROR(CodeMsg.PARAMETER_ERROR);

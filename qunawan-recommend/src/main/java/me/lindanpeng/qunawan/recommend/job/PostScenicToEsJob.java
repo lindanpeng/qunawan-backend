@@ -33,7 +33,7 @@ public class PostScenicToEsJob extends AbstractJob {
      final int LIMIT_SIZE = 100;
      final String CACHE_KEY = "LastPostScenicToEsTime";
 
-    //@Scheduled(fixedDelay = 60 * 1000)
+    @Scheduled(fixedDelay = 1000*60*5)
     public void postScenicToEs() throws ParseException {
         logger.info("[PostScenicToEsJob] start...");
         Date now = new Date();
