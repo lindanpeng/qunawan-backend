@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UserConstant {
-    public static final String DEFAULT_AVATAR="http://sfsefw";
-    public static final String DEFAULT_NICKNAME="快给自己起个昵称吧";
+    public static final String DEFAULT_AVATAR="http://www.ilvping.com/public/themes/weibo/images/user_pic_middle.gif";
+    public static final String DEFAULT_NICKNAME="新用户";
 
     public static final int GENDEAR_MAIE=0;
     public static final int GENDEAR_FEMAIE=1;

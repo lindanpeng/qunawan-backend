@@ -1,5 +1,6 @@
 package me.lindanpeng.qunawan.api.service;
 
+import com.alibaba.druid.sql.PagerUtils;
 import com.alibaba.druid.util.StringUtils;
 import me.lindanpeng.qunawan.core.cache.CommonRedisClient;
 import me.lindanpeng.qunawan.core.entity.Scenic;
@@ -107,14 +108,20 @@ public class ScenicService extends AbstractService {
         PageHelper.PageQuery pageQuery= PageHelper.getPageQuery(currentPage,pageSize);
         List<Integer> scenicIds= (List<Integer>) commonRedisClient.range("SCENIC_RECOMMEND:"+userId,pageQuery.getStart(),pageQuery.getLimit());
         List<ScenicRankVo> scenicRankVos=new ArrayList<>();
-        for (Integer scenicId:scenicIds){
-            Scenic scenic=scenicDao.findById(scenicId);
-            ScenicIntro scenicIntro=scenicIntroDao.findByScenicId(scenicId);
-            ScenicRankVo scenicRankVo=ScenicRankVo.fromScenic(scenic,scenicIntro);
-            scenicRankVos.add(scenicRankVo);
+        if (scenicIds.size() !=0 ) {
+            for (Integer scenicId : scenicIds) {
+                Scenic scenic = scenicDao.findById(scenicId);
+                ScenicIntro scenicIntro = scenicIntroDao.findByScenicId(scenicId);
+                ScenicRankVo scenicRankVo = ScenicRankVo.fromScenic(scenic, scenicIntro);
+                scenicRankVos.add(scenicRankVo);
+            }
+
+            int count = (int) commonRedisClient.getSize("SCENIC_RECOMMEND:" + userId);
+            PageHelper.PageResult pageResult = PageHelper.getPageResult(scenicRankVos, count, currentPage);
+            return pageResult;
         }
-        int count=(int) commonRedisClient.getSize("SCENIC_RECOMMEND:"+userId);
-        PageHelper.PageResult pageResult= PageHelper.getPageResult(scenicRankVos,count,currentPage);
-        return pageResult;
+        else {
+            return listHotScenicRank(null,null,null,currentPage, pageSize);
+        }
     }
 }

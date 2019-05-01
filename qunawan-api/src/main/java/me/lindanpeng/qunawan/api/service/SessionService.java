@@ -1,5 +1,7 @@
 package me.lindanpeng.qunawan.api.service;
 
+import me.lindanpeng.qunawan.api.dto.RegisterDto;
+import me.lindanpeng.qunawan.core.constant.UserConstant;
 import me.lindanpeng.qunawan.core.entity.User;
 import me.lindanpeng.qunawan.api.dto.SessionData;
 import me.lindanpeng.qunawan.api.exception.ServiceException;
@@ -34,7 +36,24 @@ public class SessionService extends AbstractService {
         session.setAttribute(SESSION_KEY, this.wrapSessionData(user));
         return user;
     }
+    //注册功能
+    public void register(String email,String password){
+        User user=userDao.findByEmail(email);
+        if (user!=null)
+            throw new ServiceException(CodeMsg.USER_EXISTS);
 
+        user=new User();
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setAvatar(UserConstant.DEFAULT_AVATAR);
+        user.setNickname(UserConstant.DEFAULT_NICKNAME);
+        user.setGender(UserConstant.GENDEAR_UNKNOWN);
+        userDao.add(user);
+    }
+    public void registerAndLogin(RegisterDto registerDto,HttpSession session){
+        register(registerDto.getEmail(),registerDto.getPassword());
+        login(registerDto.getEmail(),registerDto.getPassword(),session);
+    }
     public SessionData loadSessionData(HttpSession session){
         SessionData sessionData= (SessionData) session.getAttribute(SESSION_KEY);
         return sessionData;

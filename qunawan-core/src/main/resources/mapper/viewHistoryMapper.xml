@@ -7,4 +7,9 @@
         insert into view_history(user_id,scenic_id,duration)
         values (#{userId},#{scenicId},#{duration})
     </insert>
+    <select id="selectGroupByUserId" resultType="me.lindanpeng.qunawan.core.entity.ViewHistory">
+        select user_id,scenic_id,sum(duration) as duration
+        from view_history
+        group by user_id,scenic_id
+    </select>
 </mapper>

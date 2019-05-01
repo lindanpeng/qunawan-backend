@@ -73,7 +73,8 @@ public class UserInfoVo {
         userInfoVo.setAvatar(user.getAvatar());
         userInfoVo.setGender(UserConstant.GENDER_MAP.get(user.getGender()));
         userInfoVo.setIdentity(UserConstant.IDENTITY_MAP.get(user.getIdentity()));
-        userInfoVo.setBirthday(DateUtils.dateToDateTime(user.getBirthday()));
+        if (user.getBirthday()!=null)
+            userInfoVo.setBirthday(DateUtils.dateToDateTime(user.getBirthday()));
         userInfoVo.setUserId(user.getId());
         userInfoVo.setLocation(user.getProvince()+user.getCity());
         return userInfoVo;

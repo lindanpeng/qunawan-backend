@@ -1,6 +1,5 @@
 package me.lindanpeng.qunawan.api.controller;
 
-import me.lindanpeng.qunawan.api.dto.RegisterDto;
 import me.lindanpeng.qunawan.core.entity.User;
 import me.lindanpeng.qunawan.api.dto.DoLoginDto;
 import me.lindanpeng.qunawan.api.protocol.ApiResponse;

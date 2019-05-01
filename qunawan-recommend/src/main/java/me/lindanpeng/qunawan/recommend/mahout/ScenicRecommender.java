@@ -23,7 +23,7 @@ import java.util.*;
 public class ScenicRecommender {
     private final static Logger logger = LoggerFactory.getLogger(ScenicRecommender.class);
     private final static int NEIGHBORHOOD_NUM = 5;
-    private final static int RECOMMENDER_NUM = 10;
+    private final static int RECOMMENDER_NUM = 2;
 
     public Map<Long, List<RecommendedItem>> getRecommendResult(List<ScoreData> scoreDatas) {
         try {
