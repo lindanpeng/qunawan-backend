@@ -54,8 +54,8 @@ public class ScenicRecommendJob extends AbstractJob {
         for (Map.Entry<Long, List<RecommendedItem>> entry : result.entrySet()) {
             List<Integer> scenicIds = new ArrayList<>(entry.getValue().size());
             entry.getValue().stream().forEach(e -> scenicIds.add((int) e.getItemID()));
+            commonRedisClient.del(CACHE_KEY + ":" + entry.getKey());
             for (Integer scenic_id : scenicIds) {
-                commonRedisClient.del(CACHE_KEY + ":" + entry.getKey());
                 commonRedisClient.rightPush(CACHE_KEY + ":" + entry.getKey(), scenic_id);
             }
         }

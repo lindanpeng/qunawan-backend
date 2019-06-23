@@ -12,7 +12,7 @@ spring:
   data:
     elasticsearch:
       cluster-name: elasticsearch
-      cluster-nodes: 127.0.0.1:9300
+      cluster-nodes: 47.107.49.21:9300
 logging:
   pattern:
     console: '%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%t] %F %L - %m%n'

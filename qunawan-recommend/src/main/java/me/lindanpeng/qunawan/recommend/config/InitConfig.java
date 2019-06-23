@@ -16,8 +16,8 @@ public class InitConfig implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         logger.info("init config...");
-//        commonRedisClient.del("LastUpdateScenicScoreTime");
-//        commonRedisClient.del("LastPostScenicToEsTime");
-//        commonRedisClient.del("SCENIC_RECOMMEND*");
+        commonRedisClient.del("LastUpdateScenicScoreTime");
+        commonRedisClient.del("LastPostScenicToEsTime");
+        commonRedisClient.del("SCENIC_RECOMMEND*");
     }
 }
